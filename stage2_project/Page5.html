@@ -1,0 +1,46 @@
+{{ block title }}
+     Page5
+{{ endblock }}
+
+{{ block content }}
+
+ <style>
+table, th, td {
+  border: 2px solid black;
+}
+Img {
+            Width: 300px;
+            Float: left;
+            Margin-left: 80px
+			}
+
+</style>
+
+
+    <h3>Instructions</h3>
+    <p>
+        In this page, you can see two paintings. one of them belongs to Klee and one belongs to Kandinsky. They are not in ordered. you should give 5 scores to each one based on your pereferences
+    </p>
+
+
+
+    <h4>Round history</h4>
+
+    <table style="width:100%">
+  <tr>
+    <th style="text-align: center"; style="width:50%" >Painting A </th>
+    <th style="text-align: center"; style="width:50%">Painting B </th>
+  </tr>
+  <tr>
+        <td style="text-align: center"><img src="{{ static 'first5paintings/kandinsky5.jpg' }}"/> </td>
+        <td style="text-align: center"><img src="{{ static 'first5paintings/klee5.jpg' }}"/> </td>
+  </tr>
+  <tr>
+    <td style="text-align: center">{{ formfield player.klee5_paintings}}</td>
+    <td style="text-align: center">{{ formfield player.kandinsky5_paintings}}</td>
+  </tr>
+</table>
+
+
+{{ next_button }}
+{{ endblock }}

@@ -1,0 +1,102 @@
+{{ block content }}
+
+<style>
+    .card-icon {
+        font-size: 7em;
+    }
+
+    .black-suit {
+        color: black;
+    }
+
+    .card-button {
+        border: none;
+    }
+
+</style>
+
+<div id="status"></div>
+<h5>You choose to play</h5>
+<div id="starter"></div>
+<h5>Your hand</h5>
+<div id="hand"></div>
+<br>
+
+<div>
+    <button type="button" class="card-button card-icon" onclick="sendStock()">
+        🂠
+    </button>
+</div>
+<br>
+
+<h5>Instructions</h5>
+<ul>
+    <li>choose a card to play. The winner is the holder of higher card</li>
+
+</ul>
+
+<script>
+    let handDiv = document.getElementById('hand');
+    let statusDiv = document.getElementById('status');
+    let starterDiv = document.getElementById('starter');
+
+
+    function makeIcon(card) {
+        if (card === '') {
+            return '(blank; please place any card)'
+        }
+        let number = card[0];
+        let number_char = js_vars.NUMBERS_TO_CODEPOINTS[number];
+        let color = 'HD'.includes(suit) ? 'black' : 'black';
+        // there are unicode characters for each playing card
+        return `<span class="card-icon ${color}-suit">&#x1F0${number_char}</span>`;
+    }
+
+    function makeButton(card) {
+        let icon = makeIcon(card);
+        return `<button type="button" value="${card}" onclick="sendCard(this)" class="card-button pick">${icon}</button>`;
+    }
+
+    function layoutHand(hand) {
+        handDiv.innerHTML = hand.map(e => makeButton(e)).join('');
+    }
+
+    function sendCard(btn) {
+        let card = btn.value;
+        liveSend({'type': 'move', 'move': card});
+    }
+
+    function sendPass() {
+        liveSend({'type': 'pass'});
+    }
+
+    function enableButtons(enabled) {
+        for (let ele of document.getElementsByClassName('card-button')) {
+            ele.disabled = enabled ? '' : 'disabled';
+            console.log(ele.disabled);
+        }
+    }
+
+    function liveRecv(data) {
+        console.log(data);
+        if (data.finished) {
+            document.getElementById('form').submit();
+        }
+        if (data.error) {
+            window.alert(data.msg);
+            return;
+        }
+
+        layoutHand(data.hand);
+
+        starterDiv.innerHTML = makeIcon(data.starter);
+        );
+
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({'type': 'load'});
+    });
+</script>
+
+{{ endblock }}

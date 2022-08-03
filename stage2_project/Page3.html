@@ -1,0 +1,58 @@
+{{ block title }}
+     Page3
+{{ endblock }}
+
+{{ block content}}
+
+ <style>
+table, th, td {
+  border: 2px solid black;
+}
+Img {
+            Width: 300px;
+            Float: left;
+            Margin-left: 80px
+			}
+
+</style>
+
+
+    <h3>Instructions</h3>
+    <p>
+        In this page, you can see two paintings. one of them belongs to Klee and one belongs to Kandinsky. They are not in ordered. you should give 5 scores to each one based on your pereferences
+    </p>
+
+
+
+    <h4>Round history</h4>
+
+    <table id="history" class="table" style="width:100%">
+  <tr>
+     <th style="text-align: center"; style="width:50%" >card 1 </th>
+     <th style="text-align: center"; style="width:50%">card 2</th>
+      <th style="text-align: center"; style="width:50%">card 3</th>
+  </tr>
+  <tr>
+        <td style="text-align: center"><button id="content1" type="button" onclick="sendCard()">{{ player.card1 }}</button></td>
+        <td style="text-align: center"><button  id="content2" type="button" onclick="sendCard()">{{ player.card2 }}</button></td>
+        <td style="text-align: center"><button  id="content3"  type="button" onclick="sendCard()">{{ player.card3 }}</button></td>
+  </tr>
+
+</table>
+
+<script>
+    let history = document.getElementById('history');
+
+    function liveRecv(data){
+        history.getElementById("content1").innerHTML =
+    }
+    function sendCard() {
+        liveSend(value);
+
+    }
+
+</script>
+
+
+{{ next_button }}
+{{ endblock }}

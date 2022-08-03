@@ -1,0 +1,51 @@
+{{ block title }}
+     Page1
+{{ endblock }}
+
+{{ block content }}
+
+
+ <style>
+table, th, td {
+  border: 1px solid black;
+}
+Img {
+			Width: 300px;
+            Float: left;
+            Margin-left: 80px
+			}
+
+</style>
+
+
+    <h3>Instructions</h3>
+    <p>
+        In this page, you can see two paintings. one of them belongs to Klee and one belongs to Kandinsky. They are not in order. you should give scores to each one based on your preference. Your total scores to both painting should be 5 scores.
+    </p>
+
+
+
+    <h4>Painting Pair1</h4>
+
+    <table style="width:100%">
+  <tr>
+    <th style="text-align: center"; style="width:500px" >Painting A </th>
+    <th style="text-align: center"; style="width:500px">Painting B </th>
+  </tr>
+  <tr>
+        <td style="text-align: center"; ><img src="{{ static 'first5paintings/klee1.jpg' }}" style="width:300px; height: 300px;" /> </td>
+        <td style="text-align: center"; ><img src="{{ static 'first5paintings/kandinsky1.jpg' }}" style="width:300px; height: 300px;" /> </td>
+        <td style="text-align: center"; ><img src="{{ static 'first5paintings/kandinsky1.jpg' }}" style="width:300px; height: 300px;" /> </td>
+
+  </tr>
+  <tr>
+      <td style="text-align: center">"card1:" {{player.card1}}</td>
+      <td style="text-align: center">"card2:" {{player.card2}}</td>
+      <td style="text-align: center">"card3:" {{player.card3}}</td>
+  </tr>
+</table>
+
+
+{{ next_button }}
+
+{{ endblock }}
