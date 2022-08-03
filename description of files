@@ -1,4 +1,4 @@
 There are 3 apps: 
-1. kk11
-2. second_project
-3. stage
+1. kk11: it is klee_kandinsky design in which we want participants to score 0-5 to 5 pairs of paintings, each pair icludes one klee, one kandinsky painting. Then, clculate the klee_difference for each participant and rank all participants in a session based on their scores. 
+2. second_project: in this project, we want to rank participants based on their scores to the paintings, based on their klee_difference score (below the med is kandinksy group, higher the median is klee group). then based on these two groups there are some other steps. 
+3. stage2_project: there is card game in which one person from klee group should play with a plyaer from kandinsky group (random selection). each card game includes 3 rounds, in each round, each player has 3 cards (random selection from a deck of 10 cards). they should choose one card to play. the holder of higher card is winner. 
