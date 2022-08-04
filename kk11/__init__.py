@@ -1,85 +1,85 @@
+import pathlib
+
 from otree.api import *
 from otree.models import subsession
+from random import shuffle
 
 doc = """
 Your app description
 """
 
 
-def read_csv():
-    import csv
-
-    f = open(__name__ + '/paintings.csv', encoding='utf-8-sig')
-    rows = [row for row in csv.DictReader(f)]
-    for row in rows:
-        row['image_path'] = 'first5paintings/{}.jpg'.format(row['image_jpg'])
-
-    return rows
-
-
 class C(BaseConstants):
     NAME_IN_URL = 'kk11'
     PLAYERS_PER_GROUP = None
-    PRODUCTS = read_csv()
-    NUM_ROUNDS = len(PRODUCTS)
-
+    NUM_PAINTINGS = 5
+    NUM_ROUNDS = NUM_PAINTINGS
 
 
 class Subsession(BaseSubsession):
     pass
 
 
-
 class Group(BaseGroup):
     pass
 
 
-
 class Player(BasePlayer):
-    sku = models.StringField()
     klee_difference = models.IntegerField()
 
     klee = models.IntegerField(
             widget=widgets.RadioSelectHorizontal,
-            choices=[ 0, 1, 2, 3, 4, 5 ],
+            choices=[0, 1, 2, 3, 4, 5],
             label="I like:"
         )
     kandinsky = models.IntegerField(
             widget=widgets.RadioSelectHorizontal,
-            choices=[ 0, 1, 2, 3, 4, 5 ],
+            choices=[0, 1, 2, 3, 4, 5],
             label="I like:"
     )
 
 
 # Functions
-
 def creating_session(subsession: Subsession):
-    session = subsession.session
-    session.scores = []
-    for p in subsession.get_players():
-       img = get_current_product(p)
-       p.sku = img[ 'sku' ]
+    if subsession.round_number == 1:
+        for p in subsession.get_players():
+            p.participant.vars['scores'] = []
+
 
 def set_score(player:Player):
+    participant = player.participant
     player.klee_difference = player.klee - player.kandinsky
-    players = player.in_all_rounds()
-    for p in players:
-        p.klee_difference += (p.klee - p.kandinsky)
+    participant.vars['scores'].append(player.klee_difference)
+    if player.round_number == C.NUM_ROUNDS:
+        participant.score = sum(participant.vars['scores'])
 
 
-def get_current_product(player: Player):
-    return C.PRODUCTS[player.round_number - 1]
+def set_minimal_groups(subsession: Subsession):
+    session = subsession.session
+    participants = [p.participant for p in subsession.get_players()]
+    shuffle(participants)
 
+    ranks = sorted(participants, key=lambda x: x.score)
+    session.scores = [p.score for p in ranks]
+    median = len(ranks) / 2
+    for n, p in enumerate(ranks):
+        if n < median:
+            p.group = 'kandinsky'
+        else:
+            p.group = 'klee'
 
 
 ##PAGES
-class Page1(Page):
+class Paintings(Page):
     form_model = 'player'
     form_fields = ['klee', 'kandinsky']
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(product=get_current_product(player))
+        return dict(
+            klee_img=f'first5paintings/klee{player.round_number}.jpg',
+            kandinsky_img=f'first5paintings/kandinsky{player.round_number}.jpg'
+        )
 
     @staticmethod
     def error_message(player: Player, values):
@@ -92,32 +92,20 @@ class Page1(Page):
         set_score(player)
 
 
+class WaitingResults(WaitPage):
+    wait_for_all_groups = True
 
-class ResultsWaitPage(WaitPage):
-    pass
+    after_all_players_arrive = set_minimal_groups
 
-class Resultscombine(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+
+class Results(Page):
     @staticmethod
-    def vars_for_template(player: Player):
-        session = player.session
-        session.scores.append(player.klee_difference)
-
-##This is my last try for defining a list of players and attributing scores to them. my problem is to have a list
-## in which I can see klee_difference_all of all rounds fo all players.
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
 
 
-
-
-# def vars_for_template(player: Player):
-       # participant = player.participant
-      #  all_scores =participant.kk11_klee_difference
-      #  print(all_scores)
-
-
-
-page_sequence = [Page1, ResultsWaitPage, Resultscombine]
-
+page_sequence = [Paintings, WaitingResults, Results]

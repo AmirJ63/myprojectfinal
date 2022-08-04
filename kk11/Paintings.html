@@ -1,0 +1,48 @@
+{{ block title }}
+    Painting Pair {{ subsession.round_number }}
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<h3>Instructions</h3>
+<p>
+    In this page, you can see two paintings. one of them belongs to Klee and one belongs to Kandinsky. They are not in
+    order. you should give scores to each one based on your preference. Your total scores to both painting should be 5
+    scores.
+</p>
+
+<table class="my-3" style="width:100%">
+    <tr>
+        <th style="text-align: center" ; style="width:500px">Painting A</th>
+        <th style="text-align: center" ; style="width:500px">Painting B</th>
+    </tr>
+    <tr>
+        <td style="text-align: center" ;><img src="{{ static klee_img }}"
+                                              style="width:300px; height: 300px;"/></td>
+        <td style="text-align: center" ;><img src="{{ static kandinsky_img}}" style="width:300px; height: 300px;"/>
+        </td>
+
+
+    </tr>
+    <tr>
+        <td style="text-align: center">{{ formfield player.klee}}</td>
+        <td style="text-align: center">{{ formfield player.kandinsky}}</td>
+    </tr>
+</table>
+
+{{ next_button }}
+
+{{ endblock }}

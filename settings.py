@@ -16,9 +16,15 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
     ),
     dict(
+        name='kk11_test',
+        display_name="kk11 (Test)",
+        app_sequence=['kk11'],
+        num_demo_participants=10,
+    ),
+    dict(
         name='stage2_project',
         display_name="stage2",
-        app_sequence=[ 'stage2_project' ],
+        app_sequence=['stage2_project'],
         num_demo_participants=2,
     )
 ]
@@ -36,7 +42,8 @@ SESSION_CONFIG_DEFAULTS = dict(
 )
 
 PARTICIPANT_FIELDS = [
-    'klee_difference_all',
+    'score',
+    'group'
 ]
 
 SESSION_FIELDS = [
