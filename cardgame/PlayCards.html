@@ -1,0 +1,82 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Title{{ endblock }}
+
+{{ block content }}
+
+<div class="row">
+        {{ for card in deck_numbers }}
+        <div class="col">
+            <button type="button" onclick="selectCard(this)" value="{{ card }}" class="btn-card">
+                <!-- it's just a coincidence that we use the bootstrap 'card' element to represent a card :) -->
+                <div class="card wisc-card">
+                    <div class="card-body" id=f"deck-{{card}}">
+                    </div>
+                </div>
+            </button>
+        </div>
+        {{ endfor }}
+
+</div>
+
+<p>Your chosen card is : </p>
+    <div class="card wisc-card">
+        <div class="card-body" id="chosen_card">
+         <button type="button" onclick="selectBack"  class="btn-card">
+        </div>
+    </div>
+
+<button type="button" id='ret-btn-submit' class="btn btn-primary">
+    Submit
+    
+</button>
+   
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+let buttons = document.getElementsByClassName('btn-card');
+
+function selectCard(btn) {
+        liveSend({'card': parseInt(btn.value)});
+        for (let btn of buttons) {
+            btn.disabled = 'disabled';
+        }
+    }
+function selectBack(btn) {
+        liveSend({'chosen_card': parseInt(btn.value)});
+        for (let btn of buttons) {
+            btn.disabled = 'disabled';
+        }
+    }
+//## below code syas that if test_card which is my chosen card is in data (which is my-cards), I should get it and make makeCardContent. So, I should define a function for makeCardContent. but what I need is that wheneever test_card is in data, the button should be filled with the chosen card. 
+
+window.onload = function() {
+   
+	const CardsField = document.getElementById('deck-{{card}}');
+ 	const ChosenCard = document.getElementById('selectBack(btn)');
+  
+  
+  	 liveSend ({action: 'load'});
+
+ 	CardsField.addEventListener('click', function() {
+    liveSend({action: 'CardsField'} );
+     })
+window.liveRecv= (data) => {
+    CardsField.value = '';
+    document.getElementById('chosen_card').innerHTML = +CardsField;
+    
+  }
+  
+ 	ChosenCard.addEventListener('click', function() {
+    liveSend({action:'ChosenCard'} );
+     })
+window.liveRecv= (data) => {
+    ChosenCard.value = '';
+    document.getElementById('deck-{{card}}').innerHTML = ChosenCard;
+    
+  }
+}
+</script>
+{{ endblock }}
