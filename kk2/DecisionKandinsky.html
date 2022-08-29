@@ -1,0 +1,36 @@
+{{ block title }}
+   Instructions for Klee group
+{{ endblock }}
+
+{{block content}}
+<p>
+    This is some information about Kandinsky's paintings. These two paintings are kandinsky's paintings.
+    You can see them and learn these and other features about them.
+</p>
+
+{{ if player.round_number == 1 }}
+
+<p>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky11.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky12.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky13.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky14.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky15.jpg' }}" style="width:300px; height: 300px;"/>
+</p>
+{{ else }}
+
+<p>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky21.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky22.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky23.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky24.jpg' }}" style="width:300px; height: 300px;"/>
+    <img src="{{ static 'kk2_images/kandinsky/kandinsky25.jpg' }}" style="width:300px; height: 300px;"/>
+</p>
+{{ endif }}
+
+{{ formfield player.kandinsky_quiz }}
+{{ next_button }}
+
+{{ endblock }}
+
+

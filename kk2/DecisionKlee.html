@@ -1,0 +1,38 @@
+{{ block title }}
+    New Instructions
+{{ endblock }}
+
+{{block content}}
+
+<p>
+    This is some information about Klee's paintings. These two paintings are klee's paintings.
+    You can see them and learn these and other features about them.
+</p>
+
+
+{{ if player.round_number == 1 }}
+<p>
+        <img src="{{ static 'kk2_images/klee/klee11.jpg' }}" style="width:300px; height: 300px;" />
+        <img src="{{ static 'kk2_images/klee/klee12.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee13.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee14.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee15.jpg' }}" style="width:300px; height: 300px;"/>
+</p>
+{{ else }}
+<p>
+        <img src="{{ static 'kk2_images/klee/klee21.jpg' }}" style="width:300px; height: 300px;" />
+        <img src="{{ static 'kk2_images/klee/klee22.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee23.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee24.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/klee/klee25.jpg' }}" style="width:300px; height: 300px;"/>
+</p>
+{{ endif }}
+
+{{ formfield player.klee_quiz }}
+
+
+{{ next_button }}
+
+{{ endblock }}
+
+
