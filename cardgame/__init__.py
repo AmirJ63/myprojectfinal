@@ -26,8 +26,7 @@ def creating_session(subsession: Subsession):
     for p in players:
         if p.round_number == 1:
             participant = p.participant
-            participant.cardgame_round_to_pay = random.randint(1,
-                                                               C.NUM_ROUNDS)  # the random should be between the result after first taking and second taking.
+            participant.cardgame_play_to_pay = random.randint(participant.payoff_1, participant.payoff_2)  # the random should be between the result after first taking and second taking.
             participant.dropout = False
             participant.unmatched = False
 
@@ -76,13 +75,6 @@ def set_groups(subsession: Subsession):
     session.set_group_matrix(group_matrix)
 
 
-def set_payoff(subsession: Subsession):
-    session = subsession.session
-    import random
-    players = subsession.get_players()
-    for p in players:
-        participant = p.participant
-        participant.payoff = random.randint(participant.payoff_1, participant.payoff_2)
 
 
 class Group(BaseGroup):
@@ -142,7 +134,7 @@ def live_method(player: Player, data):
     my_id = player.id_in_group
     is_new_high_card = False
 
-    # card = bid
+
     if 'card' in data:
         card = data[ 'card' ]
         if card > group.highest_card:
@@ -175,7 +167,7 @@ class WaitToPlay(WaitPage):
 
 class PlayCards(Page):
     form_model = 'player'
-    form_fields = [ 'my_deck' ]
+    form_fields = ['my_deck']
     live_method = 'live_method'
 
     @staticmethod

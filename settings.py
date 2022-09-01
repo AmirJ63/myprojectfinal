@@ -38,6 +38,9 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = [
     'score',
     'group',
+    'cardgame_play_to_pay',
+    'payoff_1',
+    'payoff_2',
     'card_number',
     'my_deck',
 
