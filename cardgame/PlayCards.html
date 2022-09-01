@@ -1,41 +1,72 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Title{{ endblock }}
+{{ block title }}Card Game{{ endblock }}
 
 {{ block content }}
 
-<div class="row">
-    {{ for card in deck_numbers }}
-<!--comments: deck_number is 3 or 2 depends on the session-->
-    <div class="col">
-            <button type="button" onclick="selectCard(this)" value="{{ card }}" class="btn-card">
-                <!-- it's just a coincidence that we use the bootstrap 'card' element to represent a card :) -->
-                <div class="card wisc-card">
-                    <div class="card-body" id='deck-{{card}}'>
-                    </div>
-                </div>
+<style>
+    #cards_container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 2rem;
+    }
+    .btn-card {
+        width: 100px;
+        height: 150px;
+        font-size: 30px;
+    }
+    #on-selection {
+        display: none;
+    }
+    #on-selection p:first-child {
+        font-size: 20px;
+    }
+    #card_selected {
+        font-weight: bold;
+    }
+</style>
+
+<div id="cards_container">
+    {{ for card in cards }}
+        <div>
+            <button type="button" value="{{ card }}" class="btn-card">
+                {{ card }}
             </button>
         </div>
     {{ endfor }}
-
 </div>
 
-<p>Your chosen card is : </p>
-    <div class="card wisc-card">
-        <div class="card-body" id="chosen_card">
-         <button type="button" onclick="selectBack"  class="btn-card">
+<input type="hidden" name="card">
+{{ formfield_errors 'card' }}
 
-<button type="button" id='ret-btn-submit' class="btn btn-primary">
-    Submit
-    
-</button>
-   
-{{ next_button }}
+<div id="on-selection">
+    <p>
+        Your chosen card is <span id="card_selected"></span>
+    </p>
+    <p>
+        <button class="btn btn-primary otree-btn-next">
+            Submit
+        </button>
+    </p>
+</div>
 
 {{ endblock }}
 
 {{ block scripts }}
 <script>
-let buttons = document.getElementsByClassName('btn-card');
+    window.onload = () => {
+        let buttons = document.querySelectorAll('.btn-card'),
+            cardInput = document.querySelector('input[name="card"]'),
+            onSelection = document.getElementById('on-selection'),
+            cardSelected = document.getElementById('card_selected');
+
+        buttons.forEach((btn) => {
+            btn.addEventListener("click", (event) => {
+                cardInput.value = event.target.value;
+                cardSelected.innerText = event.target.value;
+                onSelection.style.display = 'block';
+            });
+        });
+    }
 
 function selectCard(btn) {
         liveSend({'card': parseInt(btn.value)});
@@ -49,33 +80,5 @@ function selectBack(btn) {
             btn.disabled = 'disabled';
         }
     }
-//## below code syas that if test_card which is my chosen card is in data (which is my-cards), I should get it and make makeCardContent. So, I should define a function for makeCardContent. but what I need is that wheneever test_card is in data, the button should be filled with the chosen card. 
-
-window.onload = function() {
-   
-	const CardsField = document.getElementById('deck-{{card}}');
- 	const ChosenCard = document.getElementById('selectBack(btn)');
-  
-  
-  	 liveSend ({action: 'load'});
-
- 	CardsField.addEventListener('click', function() {
-    liveSend({action: 'CardsField'} );
-     })
-window.liveRecv= (data) => {
-    CardsField.value = '';
-    document.getElementById('chosen_card').innerHTML = +CardsField;
-    
-  }
-  
- 	ChosenCard.addEventListener('click', function() {
-    liveSend({action:'ChosenCard'} );
-     })
-window.liveRecv= (data) => {
-    ChosenCard.value = '';
-    document.getElementById('deck-{{card}}').innerHTML = ChosenCard;
-    
-  }
-}
 </script>
 {{ endblock }}
