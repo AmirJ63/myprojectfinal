@@ -4,17 +4,17 @@
 {{ block content }}
 
 <div class="row">
-        {{ for card in deck_numbers }}
-        <div class="col">
+    {{ for card in deck_numbers }}
+    <div class="col">
             <button type="button" onclick="selectCard(this)" value="{{ card }}" class="btn-card">
                 <!-- it's just a coincidence that we use the bootstrap 'card' element to represent a card :) -->
                 <div class="card wisc-card">
-                    <div class="card-body" id=f"deck-{{card}}">
+                    <div class="card-body" id='deck-{{card}}'>
                     </div>
                 </div>
             </button>
         </div>
-        {{ endfor }}
+    {{ endfor }}
 
 </div>
 
@@ -22,8 +22,6 @@
     <div class="card wisc-card">
         <div class="card-body" id="chosen_card">
          <button type="button" onclick="selectBack"  class="btn-card">
-        </div>
-    </div>
 
 <button type="button" id='ret-btn-submit' class="btn btn-primary">
     Submit

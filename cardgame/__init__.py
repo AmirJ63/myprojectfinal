@@ -53,7 +53,7 @@ def set_groups(subsession: Subsession):
     for p in active_players:
         participant = p.participant
         participant.role = random.randint(C.ROLE_KLEE, C.ROLE_KANDINSKY)
-    # when I want to add this app afte kk11, the coding should be like the the following code:
+    # when I want to add this app after kk11, the coding should be like the following code:
     # if participant.group = 'klee':
     # participant.role = C.ROLE_KLEE
     # else:
@@ -138,7 +138,6 @@ class Player(BasePlayer):
 
 
 def live_method(player: Player, data):
-    group = player.group
     group = player.group
     my_id = player.id_in_group
     is_new_high_card = False

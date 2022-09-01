@@ -4,27 +4,21 @@ from os import environ
 SESSION_CONFIGS = [
 
     dict(
-        name='second_project',
-        display_name="SecondProject",
-        app_sequence=['second_project'],
-        num_demo_participants=2,
-    ),
-    dict(
         name='kk11',
         display_name="kk11",
-        app_sequence=['kk11'],
+        app_sequence=['kk11', 'kk2'],
         num_demo_participants=3,
     ),
     dict(
         name='kk11_test',
         display_name="kk11 (Test)",
-        app_sequence=['kk11'],
+        app_sequence=['kk11', 'kk2'],
         num_demo_participants=10,
     ),
     dict(
-        name='stage2_project',
-        display_name="stage2",
-        app_sequence=['stage2_project'],
+        name='cardgame',
+        display_name="card game",
+        app_sequence=['cardgame'],
         num_demo_participants=2,
     )
 ]
@@ -43,7 +37,10 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = [
     'score',
-    'group'
+    'group',
+    'card_number',
+    'my_deck',
+
 ]
 
 SESSION_FIELDS = [

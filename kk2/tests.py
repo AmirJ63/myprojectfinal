@@ -9,8 +9,13 @@ class PlayerBot(Bot):
         f= randint(1,5)
         if self.participant.group == 'klee':
             yield DecisionKlee, dict(klee_quiz=e)
+            if self.player.round_number==1:
+                yield GuideKlee
         elif self.participant.group == 'kandinsky':
             yield DecisionKandinsky, dict(kandinsky_quiz=f)
+            if self.player.round_number == 1:
+                yield  GuideKandinsky
+
 
         if self.player.round_number == C.NUM_ROUNDS:
             yield Results

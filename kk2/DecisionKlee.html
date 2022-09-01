@@ -30,8 +30,54 @@
 
 {{ formfield player.klee_quiz }}
 
+<div id="chat_messages">
+</div>
+
+<div>
+    <input type="text" id="chat_input">
+    <button type="button" onclick="sendMsg()">Send</button>
+</div>
+
 
 {{ next_button }}
+
+
+
+<script>
+
+    let chat_input = document.getElementById('chat_input');
+
+    chat_input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendMsg();
+        }
+    });
+
+    function sendMsg() {
+        let text = chat_input.value.trim();
+        if (text) {
+            liveSend({'text': text});
+        }
+        chat_input.value = '';
+    }
+
+    let chat_messages = document.getElementById('chat_messages');
+
+    function liveRecv(messages) {
+        for (let msg of messages) {
+            let msgSpan = document.createElement('span');
+            msgSpan.textContent = msg.text;
+            let sender = msg.sender === js_vars.my_id ? 'Me' : `Player ${msg.sender}`;
+            let row = `<div><b>${sender}</b>: ${msgSpan.innerHTML}</div>`;
+            chat_messages.insertAdjacentHTML('beforeend', row);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+    });
+
+</script>
 
 {{ endblock }}
 
