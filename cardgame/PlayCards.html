@@ -5,6 +5,7 @@
 
 <div class="row">
     {{ for card in deck_numbers }}
+<!--comments: deck_number is 3 or 2 depends on the session-->
     <div class="col">
             <button type="button" onclick="selectCard(this)" value="{{ card }}" class="btn-card">
                 <!-- it's just a coincidence that we use the bootstrap 'card' element to represent a card :) -->
