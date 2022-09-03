@@ -2,7 +2,12 @@ from os import environ
 
 
 SESSION_CONFIGS = [
-
+    dict(
+        name='study',
+        display_name="Study",
+        app_sequence=['kk11', 'kk2', 'cardgame'],
+        num_demo_participants=4
+    ),
     dict(
         name='kk11',
         display_name="kk11",
@@ -38,12 +43,13 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = [
     'score',
     'group',
-    'cardgame_play_to_pay',
-    'payoff_1',
-    'payoff_2',
-    'card_number',
-    'my_deck',
-
+    'payoff_kk2',
+    'cardgame_to_pay',
+    'cardgame_score_1',
+    'cardgame_payoff_1',
+    'cardgame_score_2',
+    'cardgame_payoff_2',
+    'payoff_cardgame'
 ]
 
 SESSION_FIELDS = [

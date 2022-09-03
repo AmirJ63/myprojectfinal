@@ -8,157 +8,134 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'cardgame'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 3
-    REWARD = cu(100)
-    ROLE_KLEE = 'klee'
-    ROLE_KANDINSKY = 'kandinsky'
+    NUM_TURNS = 3
+    NUM_GAMES = 2
+    NUM_ROUNDS = NUM_GAMES * NUM_TURNS
+    REWARD = cu(10)
     DECK = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    NUM_CARDS_PER_PLAYER = 3
 
 
 class Subsession(BaseSubsession):
     pass
 
 
+class Group(BaseGroup):
+    game_num = models.IntegerField()
+    highest_card = models.IntegerField()
+
+
+
+class Player(BasePlayer):
+    card = models.IntegerField()
+    win_turn = models.BooleanField(initial=False)
+
+
+
+#Functions
+
 def creating_session(subsession: Subsession):
-    session = subsession.session
-    import random
-    players = subsession.get_players()
-    for p in players:
-        if p.round_number == 1:
+    if subsession.round_number == 1:
+        import random
+        players = subsession.get_players()
+        for p in players:
             participant = p.participant
-            participant.cardgame_play_to_pay = random.randint(participant.payoff_1, participant.payoff_2)  # the random should be between the result after first taking and second taking.
-            participant.dropout = False
-            participant.unmatched = False
+            # Card game to pay
+            participant.cardgame_to_pay = random.choice([1, 2])
+            print ('participant.cardgame_to_pay', participant.cardgame_to_pay)
+            participant.cardgame_score_1 = 0
+            participant.cardgame_payoff_1 = cu(0)
+            participant.cardgame_score_2 = 0
+            participant.cardgame_payoff_2 = cu(0)
 
 
 def set_groups(subsession: Subsession):
-    session = subsession.session
-    import random
-    session = subsession.session
     from random import shuffle
 
-    players = session.get_players()
-    active_players = [ p for p in players if not (p.participant.dropout or p.participant.unmatched) ]
-    inactive = [ p for p in players if p.participant.dropout or p.participant.unmatched ]
-    shuffle(active_players)
+    players = subsession.get_players()
+    shuffle(players)
 
-    n, r = divmod(len(active_players), C.PLAYERS_PER_GROUP)
+    ps_klee = [p for p in players if p.participant.group == 'klee']
+    ps_kandinsky = [p for p in players if p.participant.group == 'kandinsky']
+    shuffle(ps_klee)
+    shuffle(ps_kandinsky)
+    group_matrix = [list(pair) for pair in zip(ps_klee, ps_kandinsky)]
 
-    while r:
-        p = active_players.pop()
-        p.participant.unmatched = True
-        inactive.append(p)
-        r -= 1
-    for p in active_players:
-        participant = p.participant
-        participant.role = random.randint(C.ROLE_KLEE, C.ROLE_KANDINSKY)
-    # when I want to add this app after kk11, the coding should be like the following code:
-    # if participant.group = 'klee':
-    # participant.role = C.ROLE_KLEE
-    # else:
-    # participant.role = C.ROLE_KANDINSKY
-    group_klee = [ ]
-    group_kandinsky = [ ]
-    for p in active_players:
-        if participant.role == 'klee':
-            group_klee.append(p)
-        else:
-            group_kandinsky.append(p)
-    shuffle(group_klee)
-    shuffle(group_kandinsky)
-    group_matrix = [ [ group_klee[ n ], group_kandinsky[ n ] ] for n in
-                     range(0, len(group_klee)) ]
-
-    if inactive:
-        group_matrix.append(inactive)
-
-    session.set_group_matrix(group_matrix)
-
-
-
-
-class Group(BaseGroup):
-    card_1 = models.IntegerField(initial=0)
-    card_2 = models.IntegerField(initial=0)
-    highest_card = models.IntegerField(initial=0)
-    highest_player = models.IntegerField(initial=1)
-
-
-def set_payoff_1(group: Group):
-    players = group.get_players()
-    for p in players:
-        participant = p.participant
-        if p.num_winners_1 >= 2:
-            ##participant.is_winner_1 = True
-            participant.payoff_1 = C.REWARD
-
-
-def set_payoff_2(group: Group):
-    players = group.get_players()
-    for p in players:
-        participant = p.participant
-        if p.num_winners_2 >= 2:
-            participant.payoff_2.apprnd(C.REWARD)
+    for s in subsession.in_rounds(subsession.round_number, subsession.round_number + C.NUM_TURNS - 1):
+        s.set_group_matrix(group_matrix)
 
 
 def set_cards(group: Group):
     import random
-    n = 6
-    players = group.get_players()
+    num_cards = C.NUM_CARDS_PER_PLAYER * C.PLAYERS_PER_GROUP
+    deck = random.sample(C.DECK, k=num_cards)
+    for p in group.get_players():
+        cards = []
+        for n in range(C.NUM_CARDS_PER_PLAYER):
+            cards.append(deck.pop())
+        p.participant.vars['cards_in_deck'] = cards
 
-    for p in players:
-        participant = p.participant
-        participant.card_number = list(random.sample(C.DECK, n))
-        print(participant.card_number)
-    random.shuffle(participant.card_number)
-    for i in range(0, 6, C.PLAYERS_PER_GROUP):
-        group.card_1 = participant.card_number[ i ]
-        group.card_2 = participant.card_number[ i + 1 ]
 
-    for p in players:
-        participant = p.participant
-        if p.id_in_group == 1:
-            participant.my_deck = group.card_1
+def set_game_results(group: Group):
+    import math
+    round_number = group.round_number
+    game_num = math.ceil(round_number / C.NUM_TURNS)
+    group.game_num = game_num
+    p1 = group.get_player_by_id(1)
+    p2 = group.get_player_by_id(2)
+
+    if p1.card > p2.card:
+        group.highest_card = p1.card
+        p1.win_turn = True
+        if game_num == 1:
+            p1.participant.cardgame_score_1 += 1
         else:
-            participant.my_deck = group.card_2
+            p1.participant.cardgame_score_2 += 1
+    else:
+        group.highest_card = p2.card
+        p2.win_turn = True
+        if game_num == 1:
+            p2.participant.cardgame_score_1 += 1
+        else:
+            p2.participant.cardgame_score_2 += 1
+
+        if game_num == 1:
+            winner = max([p1, p2], key=lambda x: x.participant.cardgame_score_1)
+            winner.participant.cardgame_payoff_1 = 9 * C.REWARD
+            loser = min([p1, p2], key=lambda x: x.participant.cardgame_score_1)
+            loser.participant.cardgame_payoff_1 = 3 * C.REWARD
+        else:
+            winner = max([p1, p2], key=lambda x: x.participant.cardgame_score_2)
+            winner.participant.cardgame_payoff_2 = 9 * C.REWARD
+            loser = min([p1, p2], key=lambda x: x.participant.cardgame_score_2)
+            loser.participant.cardgame_payoff_1 = 3 * C.REWARD
+
+    players = [p for p in group.get_players()]
+    for p in players:
+        if p.participant.cardgame_to_pay == 1:
+            p.participant.payoff_cardgame = p.participant.cardgame_payoff_1
+        elif p.participant.cardgame_to_pay == 2:
+            p.participant.payoff_cardgame = p.participant.cardgame_payoff_2
+
+def set_card_game_turn(player):
+    pass
 
 
-class Player(BasePlayer):
-    my_deck = models.IntegerField(label='Please select one card.')
-    card = models.IntegerField(initial=0)
-    is_winner_1 = models.BooleanField(initial=False)
 
-
-def live_method(player: Player, data):
-    group = player.group
-    my_id = player.id_in_group
-    is_new_high_card = False
-
-
-    if 'card' in data:
-        card = data[ 'card' ]
-        if card > group.highest_card:
-            player.card = card
-            group.highest_card = card
-            group.highest_player = my_id
-            is_new_high_card = True
-
-    return {
-        0: dict(
-            is_new_high_card=is_new_high_card,
-            highest_card=group.highest_card,
-            highest_player=group.highest_player,
-        )
-    }
-
-
-def js_vars(player: Player):
-    group = player.group
-    return dict(my_id=player.id_in_group)
-
-
+#Pages
 class Instruction(Page):
-    form_model = 'player'
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
+class GroupingPage(WaitPage):
+    wait_for_all_groups = True
+    after_all_players_arrive = set_groups
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1 or player.round_number == 4
 
 
 class WaitToPlay(WaitPage):
@@ -167,26 +144,32 @@ class WaitToPlay(WaitPage):
 
 class PlayCards(Page):
     form_model = 'player'
-    form_fields = ['my_deck']
-    live_method = 'live_method'
+    form_fields = ['card']
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(deck_numbers=range(1, 4))
+        participant = player.participant
+        return dict(
+            cards=participant.vars['cards_in_deck'],
+            ##cards_used=participant.vars['cards_used']
+        )
+
+class Taking(Page):
+    def is_displayed(player: Player):
+        return player.round_number == 3 or player.round_number == 6
+
+class WaitTurnResults(WaitPage):
+    wait_for_all_players = True
 
     @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        group = player.group
-        for p in group.highest_player:
-            p.num_winners_1 += 1
+    def is_displayed(player: Player):
+        return player.round_number == 6
 
+    after_all_players_arrive = set_game_results
 
-class WaitForResults(WaitPage):
-    after_all_players_arrive = set_payoff_1
-
+class GameResults(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
-
-page_sequence = [ Instruction, WaitToPlay, PlayCards, WaitForResults ]
+page_sequence = [Instruction, GroupingPage, WaitToPlay, PlayCards, Taking, WaitTurnResults, GameResults  ]
