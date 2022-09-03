@@ -12,7 +12,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'kk11'
     PLAYERS_PER_GROUP = None
-    NUM_PAINTINGS = 5
+    NUM_PAINTINGS = 1
     NUM_ROUNDS = NUM_PAINTINGS
 
 

@@ -67,7 +67,7 @@ def set_payoff(player: Player):
         participant.vars[ 'payoff' ].append(C.REWARDS)
 
     if player.round_number == C.NUM_ROUNDS:
-        participant.payoff = sum(participant.vars[ 'payoff' ])
+        participant.payoff_kk2 = sum(participant.vars[ 'payoff' ])
 
 
 
