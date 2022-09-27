@@ -6,26 +6,18 @@ SESSION_CONFIGS = [
         name='study',
         display_name="Study",
         app_sequence=['kk11', 'kk2', 'cardgame'],
-        num_demo_participants=4
-    ),
-    dict(
-        name='kk11',
-        display_name="kk11",
-        app_sequence=['kk11', 'kk2'],
-        num_demo_participants=3,
-    ),
-    dict(
-        name='kk11_test',
-        display_name="kk11 (Test)",
-        app_sequence=['kk11', 'kk2'],
-        num_demo_participants=10,
-    ),
-    dict(
-        name='cardgame',
-        display_name="card game",
-        app_sequence=['cardgame'],
         num_demo_participants=2,
-    )
+        #use_browser_bots = True
+    ),
+    dict(
+        name='study_test',
+        display_name="kk11 (Test)",
+        app_sequence=['kk11', 'kk2', 'cardgame'],
+        num_demo_participants=20,
+
+
+
+    ),
 ]
 
 
@@ -37,19 +29,26 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=0.10, participation_fee=3.00, doc=""
 )
 
 PARTICIPANT_FIELDS = [
     'score',
     'group',
-    'payoff_kk2',
+    'klee_quiz',
+    'kandinsky_quiz',
     'cardgame_to_pay',
     'cardgame_score_1',
     'cardgame_payoff_1',
     'cardgame_score_2',
     'cardgame_payoff_2',
-    'payoff_cardgame'
+    'payoff_cardgame',
+    'payoff_kk2',
+    'taking_payoff_1',
+    'taking_payoff_2',
+    'taking_payoff',
+
+
 ]
 
 SESSION_FIELDS = [
@@ -61,7 +60,7 @@ SESSION_FIELDS = [
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
+REAL_WORLD_CURRENCY_CODE = 'GBP'
 USE_POINTS = True
 
 ROOMS = [

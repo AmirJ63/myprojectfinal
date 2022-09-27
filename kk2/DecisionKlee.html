@@ -5,8 +5,12 @@
 {{block content}}
 
 <p>
-    This is some information about Klee's paintings. These two paintings are klee's paintings.
-    You can see them and learn these and other features about them.
+    {{if participant.group == 'klee'}}
+        you should choose one painting which belongs to Klee among all 5 paintings. You can chat with your partners in your group to find the correct answer.
+    {{else}}
+        you should choose one painting which belongs to Kandinsky among all 5 paintings. You can chat with your partners in your group to find the correct answer.
+    {{endif}}
+
 </p>
 
 
@@ -28,7 +32,11 @@
 </p>
 {{ endif }}
 
-{{ formfield player.klee_quiz }}
+{{if participant.group == 'klee'}}
+        {{player.klee_quiz }}
+{{else}}
+        {{player.kandinsky_quiz}}
+{{endif}}
 
 <div id="chat_messages">
 </div>
