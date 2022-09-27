@@ -1,19 +1,25 @@
 {{ block title }}
-    New Instructions
+     Some information about Kandinsky
 {{ endblock }}
 
 {{block content}}
 
+<style>
 
+ Img {
+        Width: 300px;
+        Margin-Right: 150px
+    }
+</style>
 <p>
-    This is some information about Klee's paintings. These two paintings are klee's paintings.
+    This is some information about Kandinsky's paintings. These two paintings are Kandinsky's paintings.
     You can see them and learn these and other features about them.
 </p>
 
 
 <p>
-        <img src="{{ static 'kk2_images/klee/klee11.jpg' }}" style="width:300px; height: 300px;" />
-        <img src="{{ static 'kk2_images/klee/klee12.jpg' }}" style="width:300px; height: 300px;"/>
+        <img src="{{ static 'kk2_images/guides/kandinskyguide1.jpg' }}" style="width:300px; height: 300px;" />
+        <img src="{{ static 'kk2_images/guides/kandinskyguide2.jpg' }}" style="width:300px; height: 300px;"/>
 
 </p>
 
@@ -21,6 +27,5 @@
 
 
 {{ next_button }}
-
 
 {{ endblock }}

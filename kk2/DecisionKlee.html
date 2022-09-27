@@ -1,53 +1,131 @@
 {{ block title }}
-    New Instructions
+    <div class="text-center">Instructions for Klee Group</div>
 {{ endblock }}
 
 {{block content}}
 
-<p>
-    {{if participant.group == 'klee'}}
-        you should choose one painting which belongs to Klee among all 5 paintings. You can chat with your partners in your group to find the correct answer.
-    {{else}}
-        you should choose one painting which belongs to Kandinsky among all 5 paintings. You can chat with your partners in your group to find the correct answer.
-    {{endif}}
+<style>
+    .otree-body {
+        margin-left: 0;
+    }
+    table, th, td {
+        border: -o-highlight-border;
+    }
+    td {
+        border: -o-highlight-border;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .chat_container {
+        align-items: center;
+        width: 500px;
+        justify-items: center;
+    }
+    .chat{
+        align-items: center;
+        margin-left: 300px;
+    }
+    .Message_content {
+        align-items: center;
+        margin-left: 300px;
+        margin-top: 50px;
+    }
+    .send {
+        align-items: center;
+    }
+    .button {
+        margin-top: 50px;
+        align-items: center;
 
-</p>
+    }
+    .text_instructions{
+        text-align: center;
+        margin-bottom: 50px;
+        text-justify: auto;
+    }
+
+
+
+</style>
+
+
+<div class="text_instructions">
+ <p>you should choose one painting which belongs to Klee among all 5 paintings.</p>
+    <p>You can chat with your partners in your group to find the correct answer.</p></div>
 
 
 {{ if player.round_number == 1 }}
-<p>
-        <img src="{{ static 'kk2_images/klee/klee11.jpg' }}" style="width:300px; height: 300px;" />
-        <img src="{{ static 'kk2_images/klee/klee12.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee13.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee14.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee15.jpg' }}" style="width:300px; height: 300px;"/>
-</p>
-{{ else }}
-<p>
-        <img src="{{ static 'kk2_images/klee/klee21.jpg' }}" style="width:300px; height: 300px;" />
-        <img src="{{ static 'kk2_images/klee/klee22.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee23.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee24.jpg' }}" style="width:300px; height: 300px;"/>
-        <img src="{{ static 'kk2_images/klee/klee25.jpg' }}" style="width:300px; height: 300px;"/>
-</p>
-{{ endif }}
+<table>
 
-{{if participant.group == 'klee'}}
-        {{player.klee_quiz }}
-{{else}}
-        {{player.kandinsky_quiz}}
+    <tr>
+         <td>painting 1</td>
+         <td>painting 2</td>
+         <td>painting 3</td>
+         <td>painting 4</td>
+         <td>painting 5</td>
+    </tr>
+    <tr>
+
+        <td><img src="{{ static 'kk2_images/decisions/klee11.jpg' }}" style="width:240px; height: 240px;" /> </td>
+
+        <td> <img src="{{ static 'kk2_images/decisions/klee12.jpg' }}" style="width:240px; height: 240px;"/></td>
+
+         <td><img src="{{ static 'kk2_images/decisions/klee13.jpg' }}" style="width:240px; height: 240px;"/></td>
+
+         <td> <img src="{{ static 'kk2_images/decisions/klee14.jpg' }}" style="width:240px; height: 240px;"/></td>
+
+         <td><img src="{{ static 'kk2_images/decisions/klee15.jpg' }}" style="width:240px; height: 240px;"/></td>
+
+    </tr>
+
+{{  if player.participant.klee_quiz == True}}
+    {{ for choice in form.klee_quiz }}
+
+        <td>{{choice}}</td>
+
+    {{endfor}}
 {{endif}}
 
-<div id="chat_messages">
+</table>
+{{ else }}
+<table>
+    <tr>
+         <td>painting 1</td>
+         <td>painting 2</td>
+         <td>painting 3</td>
+         <td>painting 4</td>
+         <td>painting 5</td>
+    </tr>
+<tr>
+        <td><img src="{{ static 'kk2_images/decisions/klee21.jpg' }}" style="width:240px; height: 240px;" /></td>
+        <td><img src="{{ static 'kk2_images/decisions/klee22.jpg' }}" style="width:240px; height: 240px;"/></td>
+        <td><img src="{{ static 'kk2_images/decisions/klee23.jpg' }}" style="width:240px; height: 240px;"/></td>
+        <td> <img src="{{ static 'kk2_images/decisions/klee24.jpg' }}" style="width:240px; height: 240px;"/></td>
+        <td><img src="{{ static 'kk2_images/decisions/klee25.jpg' }}" style="width:240px; height: 240px;"/></td>
+</tr>
+
+{{  if player.participant.klee_quiz == True}}
+    {{ for choice in form.klee_quiz }}
+
+        <td>{{choice}}</td>
+
+    {{endfor}}
+{{endif}}
+
+</table>
+{{endif}}
+
+<div id="chat_messages" class="Message_content"></div>
+
+<div class="chat">
+    <input type="text" id="chat_input" class="chat_container">
+    <button type="button" onclick="sendMsg()" class="send">Send</button>
 </div>
 
-<div>
-    <input type="text" id="chat_input">
-    <button type="button" onclick="sendMsg()">Send</button>
+<div class="button">
+    {{ next_button }}
 </div>
 
-
-{{ next_button }}
 
 
 

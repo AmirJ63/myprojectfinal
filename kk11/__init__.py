@@ -25,6 +25,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    rand = models.IntegerField()
     klee_difference = models.IntegerField()
 
     klee = models.IntegerField(
@@ -54,6 +55,7 @@ def set_score(player:Player):
         participant.score = sum(participant.vars['scores'])
 
 
+
 def set_minimal_groups(subsession: Subsession):
     session = subsession.session
     participants = [p.participant for p in subsession.get_players()]
@@ -70,16 +72,28 @@ def set_minimal_groups(subsession: Subsession):
 
 
 ##PAGES
+class Instructions(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
 class Paintings(Page):
+
     form_model = 'player'
     form_fields = ['klee', 'kandinsky']
 
     @staticmethod
     def vars_for_template(player: Player):
+        import random
+        rand = random.randint(1, 2)
         return dict(
             klee_img=f'first5paintings/klee{player.round_number}.jpg',
-            kandinsky_img=f'first5paintings/kandinsky{player.round_number}.jpg'
+            kandinsky_img=f'first5paintings/kandinsky{player.round_number}.jpg',
+            rand=rand,
         )
+
+
+
 
     @staticmethod
     def error_message(player: Player, values):
@@ -108,4 +122,4 @@ class Results(Page):
         return player.round_number == C.NUM_ROUNDS
 
 
-page_sequence = [Paintings, WaitingResults, Results]
+page_sequence = [Instructions,Paintings, WaitingResults, Results]

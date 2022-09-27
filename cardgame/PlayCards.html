@@ -26,13 +26,27 @@
 </style>
 
 <div id="cards_container">
-    {{ for card in cards }}
+    {{if player.round_number < 4}}
+        {{ for card in cards_f }}
         <div>
             <button type="button" value="{{ card }}" class="btn-card">
                 {{ card }}
             </button>
         </div>
-    {{ endfor }}
+        {{ endfor }}
+    {{elif player.round_number > 3}}
+        {{ for card in cards_uf }}
+        <div>
+            <button type="button" value="{{ card }}" class="btn-card">
+                {{ card }}
+            </button>
+        </div>
+        {{ endfor }}
+    {{endif}}
+
+
+
+
 </div>
 
 <input type="hidden" name="card">
@@ -47,6 +61,7 @@
             Submit
         </button>
     </p>
+
 </div>
 
 {{ endblock }}

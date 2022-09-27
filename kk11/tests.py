@@ -8,6 +8,8 @@ class PlayerBot(Bot):
     def play_round(self):
         a = randint(0, 5)
         b = 5 - a
+        if self.player.round_number == 1:
+            yield Instructions
         yield Paintings, dict(klee=a, kandinsky=b)
         if self.player.round_number == C.NUM_ROUNDS:
             yield Results

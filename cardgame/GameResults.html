@@ -2,7 +2,17 @@
 {{ block title }}Card Game{{ endblock }}
 
 {{ block content }}
-<p>your payoff of kk2 is {{participant.payoff_kk2}}</p>
-<p> your cardgame payoff is {{ participant.payoff_cardgame }} </p>
+
+<p> your cardgame payoff from play 1 is {{ participant.cardgame_payoff_1 }} </p>
+<p> your cardgame payoff from play 2 is {{ participant.cardgame_payoff_2 }} </p>
+
+<p> your taking payoff from play 1 is {{ participant.taking_payoff_1 }} </p>
+<p> your taking payoff from play 2 is {{ participant.taking_payoff_2 }} </p>
+
+<p> your final payoff from play is {{ participant.taking_payoff }} </p>
+<p> you total payoff from all apps in the game is {{participant.payoff_plus_participation_fee()
+}}</p>
+
+
 
 {{ endblock }}

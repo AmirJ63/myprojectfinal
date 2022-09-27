@@ -1,10 +1,20 @@
 {{ block title }}
-    New Instructions
+   Some information about Klee
 {{ endblock }}
+
 
 {{block content}}
 
 
+<style>
+p {text-align: left;}
+div {text-align: left;}
+h {text-align: left;}
+ Img {
+        Width: 300px;
+        Margin-Right: 150px
+    }
+</style>
 
 <p>
     This is some information about Klee's paintings. These two paintings are klee's paintings.
@@ -12,16 +22,24 @@
 </p>
 
 
-<p>
-        <img src="{{ static 'kk2_images/klee/klee11.jpg' }}" style="width:300px; height: 300px;" />
-        <img src="{{ static 'kk2_images/klee/klee12.jpg' }}" style="width:300px; height: 300px;"/>
+<div>
+        <img src="{{ static 'kk2_images/guides/kleeguide1.jpg' }}" style="width:300px; height: 300px;" />
+        <img src="{{ static 'kk2_images/guides/kleeguide2.jpg' }}" style="width:300px; height: 300px;"/>
 
+</div>
+
+
+
+<p>
+
+
+
+
+
+    {{ next_button }}
 </p>
 
 
-
-
-{{ next_button }}
 
 
 {{ endblock }}

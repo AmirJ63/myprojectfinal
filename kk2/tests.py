@@ -6,17 +6,17 @@ class PlayerBot(Bot):
 
     def play_round(self):
         e = randint(1, 5)
-        f= randint(1,5)
-        if self.participant.group == 'klee':
-            yield DecisionKlee, dict(klee_quiz=e)
-            if self.player.round_number==1:
+        f = randint(1, 5)
+
+        if self.player.round_number == 1:
+            if self.participant.group == 'klee':
                 yield GuideKlee
+            elif self.participant.group == 'kandinsky':
+                yield GuideKandinsky
+
+        if self.participant.group == 'klee':
+            yield Submission(DecisionKlee, dict(klee_quiz=e), check_html=False)
         elif self.participant.group == 'kandinsky':
-            yield DecisionKandinsky, dict(kandinsky_quiz=f)
-            if self.player.round_number == 1:
-                yield  GuideKandinsky
+            yield Submission(DecisionKandinsky, dict(kandinsky_quiz=f), check_html=False)
 
-
-        if self.player.round_number == C.NUM_ROUNDS:
-            yield Results
 

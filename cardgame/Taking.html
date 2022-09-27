@@ -2,8 +2,130 @@
 {{ block title }}Card Game{{ endblock }}
 
 {{ block content }}
-your payoff is Taking Page for play
 
+<p>
+    You have
+     {{if player.round_number == 3}}
+        {{player.participant.cardgame_payoff_1}}
+    {{else}}
+        {{player.participant.cardgame_payoff_2}}
+    {{endif}}
+
+    and your coplayer has
+     {{if player.round_number == 3}}
+        {{p.participant.cardgame_payoff_1}}
+    {{else}}
+        {{p.participant.cardgame_payoff_2}}
+    {{endif}}
+</p>
+<p>
+ Move the slider to decide how much to take. you can choose units from 0 to
+    {{if player.round_number == 3}}
+        {{p.participant.cardgame_payoff_1}}
+    {{else}}
+        {{p.participant.cardgame_payoff_2}}
+    {{endif}}
+
+</p>
+
+
+
+    {{if player.round_number == 3}}
+<div style="display: flex">
+        0
+        &nbsp;
+        <input type="range" name="taking_offer_1" min="0" max="{{player.slider_max1}}" step="1" style="flex: 1" class="flex-fill flex-column" onchange="updateDescriptiontaking1(this); updateDescriptionmyself1(this); updateDescriptioncoplayer1(this)" >
+        &nbsp;
+        {{player.slider_max1}}
+</div>
+    <div class="row justify-content-start">
+        <p></p>
+        <div class="col-4"></div>
+        <div class="col-4" id="descriptiontaking1"></div>
+        <p></p>
+        <p></p>
+
+    </div>
+
+<div class="row justify-content-around">
+    <div class="col-4" id="descriptionmyself1" ></div>
+    <div class="col-4" id="descriptioncoplayer1"></div>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+
+      {{else}}
+<div style="display: flex">
+        0
+        &nbsp;
+        <input type="range" name="taking_offer_2" min="0" max="{{player.slider_max2}}" step="1" style="flex: 1" class="flex-fill flex-column" onchange="updateDescriptiontaking2(this); updateDescriptionmyself2(this); updateDescriptioncoplayer2(this)" >
+        &nbsp;
+        {{player.slider_max2}}
+</div>
+    <div class="row justify-content-start">
+        <p></p>
+        <div class="col-4"></div>
+        <div class="col-4" id="descriptiontaking2"></div>
+        <p></p>
+        <p></p>
+
+    </div>
+
+<div class="row justify-content-around">
+    <div class="col-4" id="descriptionmyself2" ></div>
+    <div class="col-4" id="descriptioncoplayer2"></div>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+
+    {{endif}}
+
+
+
+
+<script>
+
+    let descriptiontaking1 = document.getElementById('descriptiontaking1');
+    function updateDescriptiontaking1(input) {
+        let taking_offer_1 = parseInt(input.value) ;
+        descriptiontaking1.innerText = `You take ${taking_offer_1} points.`
+        liveSend({'taking_offer_1': taking_offer_1.value});
+    }
+    let descriptionmyself1 = document.getElementById('descriptionmyself1');
+    function updateDescriptionmyself1(input) {
+        let taking_offer_1 = parseInt(input.value) ;
+        let myself1 = taking_offer_1/2 + js_vars.payoff1;
+        descriptionmyself1.innerText = `You have ${myself1} points.`
+    }
+    let descriptioncoplayer1 = document.getElementById('descriptioncoplayer1');
+    function updateDescriptioncoplayer1(input) {
+        let taking_offer_1 = parseInt(input.value) ;
+        let coplayer1 = js_vars.max1 - taking_offer_1;
+        descriptioncoplayer1.innerText = `The coplayer has ${coplayer1} points`
+    }
+
+    let descriptiontaking2 = document.getElementById('descriptiontaking2');
+    function updateDescriptiontaking2(input) {
+        let taking_offer_2 = parseInt(input.value) ;
+        descriptiontaking2.innerText = `You take ${taking_offer_2} points.`
+        liveSend({'taking_offer_2': taking_offer_2.value});
+    }
+    let descriptionmyself2 = document.getElementById('descriptionmyself2');
+    function updateDescriptionmyself2(input) {
+        let taking_offer_2 = parseInt(input.value) ;
+        let myself2 = taking_offer_2/2 + js_vars.payoff2;
+        descriptionmyself2.innerText = `You have ${myself2} points.`
+    }
+    let descriptioncoplayer2 = document.getElementById('descriptioncoplayer2');
+    function updateDescriptioncoplayer2(input) {
+        let taking_offer_2 = parseInt(input.value) ;
+        let coplayer2 = js_vars.max2 - taking_offer_2;
+        descriptioncoplayer2.innerText = `The coplayer has ${coplayer2} points`
+    }
+
+</script>
 
 {{ next_button }}
 
