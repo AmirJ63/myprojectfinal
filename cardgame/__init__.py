@@ -25,6 +25,8 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     game_num = models.IntegerField()
     highest_card = models.IntegerField()
+    rnd_disadvantaged = models.StringField()
+    rnd_cards = models.IntegerField()
 
 
 class Player(BasePlayer):
@@ -76,9 +78,9 @@ def set_groups(subsession: Subsession):
     from random import shuffle
     players = subsession.get_players()
 
-    ps_klee = [ p for p in players if p.participant.group == 'klee' ]
+    ps_klee = [p for p in players if p.participant.group == 'klee']
     shuffle(ps_klee)
-    ps_kandinsky = [ p for p in players if p.participant.group == 'kandinsky' ]
+    ps_kandinsky = [p for p in players if p.participant.group == 'kandinsky']
     shuffle(ps_kandinsky)
     group_matrix = [ list(pair) for pair in zip(ps_klee, ps_kandinsky) ]
 

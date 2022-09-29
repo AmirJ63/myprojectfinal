@@ -158,6 +158,7 @@ class WaitePage(WaitPage):
 class DecisionKlee(Page):
     form_model = 'player'
 
+    timeout_seconds = 180
     @staticmethod
     def get_form_fields(player):
         if player.participant.klee_quiz == True:

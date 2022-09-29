@@ -124,7 +124,8 @@
 </div>
 
 
-<button class="o-tree-btn-next btn btn-primary" id="Next" style="visibility:hidden;">Next</button>
+<button class="o-tree-btn-next btn btn-primary" id="myNext" style="visibility:hidden">Next</button>
+
 
 
 <script>
@@ -165,6 +166,11 @@
         setTimeout(function () {
             document.querySelector("#Next").style.visibility = "visible";
         }, 60);
+    }
+
+        const myTimeout = setTimeout(next, 5000);
+    function next() {
+        document.getElementById("myNext").style.visibility = "visible";
     }
 </script>
 

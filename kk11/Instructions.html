@@ -1,10 +1,45 @@
+
+
 {{ block title }}
-    Painting Pair {{ subsession.round_number }}
+<p style="text-align: center; text-emphasis: black ">Instructions</p>
 {{ endblock }}
 
 {{ block content }}
 
 <style>
+   .instructions {
+	width:100%;
+	height:100%;
+	background:rgba(255,255,225,0.05);
+    text-align: left;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
     p{
         text-align: justify
     }
@@ -19,8 +54,8 @@
     }
 </style>
 
+<div class="instructions">
 
-<h2>Instructions</h2>
 <p >
     Welcome to today’s experiment and thanks for coming. This is an experiment in decision-making. At the end of the experiment, you will be paid the earnings you obtained from this experiment plus a participation fee of £3.
 It is important that you remain silent and do not look at other people’s work. If you have any questions, or need assistance of any kind, please raise your hand and an experimenter will come to you. If you talk, laugh, exclaim out loud, etc., you will be asked to leave and you will not be paid. We expect and appreciate your cooperation.
@@ -33,7 +68,7 @@ It is important that you remain silent and do not look at other people’s work.
 
 </p>
 
-
+</div>
 
 {{ next_button }}
 

@@ -13,7 +13,7 @@ SESSION_CONFIGS = [
         name='study_test',
         display_name="kk11 (Test)",
         app_sequence=['kk11', 'kk2', 'cardgame'],
-        num_demo_participants=20,
+        num_demo_participants=8,
 
 
 

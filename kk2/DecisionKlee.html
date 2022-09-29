@@ -122,10 +122,8 @@
     <button type="button" onclick="sendMsg()" class="send">Send</button>
 </div>
 
-<div class="button">
-    {{ next_button }}
-</div>
 
+<button class="o-tree-btn-next btn btn-primary" id="myNext" style="visibility:hidden">Next</button>
 
 
 
@@ -162,6 +160,11 @@
     document.addEventListener("DOMContentLoaded", function (event) {
         liveSend({});
     });
+
+    const myTimeout = setTimeout(next, 5000);
+    function next() {
+        document.getElementById("myNext").style.visibility = "visible";
+    }
 
 </script>
 
