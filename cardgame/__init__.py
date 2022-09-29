@@ -1,3 +1,7 @@
+import random
+from collections import defaultdict
+from itertools import product, cycle
+
 from otree.api import *
 
 c = cu
@@ -15,7 +19,7 @@ class C(BaseConstants):
     DECK = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
     NUM_CARDS_PER_PLAYER_f = 3
     NUM_CARDS_PER_PLAYER_uf = 2
-
+    PLAYER_TYPES = ['kandinsky', 'klee']
 
 
 class Subsession(BaseSubsession):
@@ -24,13 +28,13 @@ class Subsession(BaseSubsession):
 
 class Group(BaseGroup):
     game_num = models.IntegerField()
+    unfair = models.BooleanField(initial=False)
     highest_card = models.IntegerField()
-    rnd_disadvantaged = models.StringField()
-    rnd_cards = models.IntegerField()
 
 
 class Player(BasePlayer):
     card = models.IntegerField()
+    unfair = models.BooleanField(initial=False)
     win_turn = models.BooleanField(initial=False)
     slider_max1 = models.IntegerField()
     slider_max2 = models.IntegerField()
@@ -72,46 +76,89 @@ def creating_session(subsession: Subsession):
             participant.cardgame_payoff_2 = cu(0)
             participant.taking_payoff_1 = cu(0)
             participant.taking_payoff_2 = cu(0)
+            participant.vars['unfair'] = False
 
 
 def set_groups(subsession: Subsession):
     from random import shuffle
+    conditions = cycle([True, False])
     players = subsession.get_players()
+    shuffle(players)
+    round_number = subsession.round_number
+    if round_number == 1:
+        ps_klee = [p for p in players if p.participant.group == 'klee']
+        ps_kandinsky = [p for p in players if p.participant.group == 'kandinsky']
+        group_matrix = [list(pair) for pair in zip(ps_klee, ps_kandinsky)]
 
-    ps_klee = [p for p in players if p.participant.group == 'klee']
-    shuffle(ps_klee)
-    ps_kandinsky = [p for p in players if p.participant.group == 'kandinsky']
-    shuffle(ps_kandinsky)
-    group_matrix = [ list(pair) for pair in zip(ps_klee, ps_kandinsky) ]
+        for n, g in enumerate(group_matrix):
+            if n % 2 == 0:
+                condition = next(conditions)
+                for p in g:
+                    participant = p.participant
+                    if condition and participant.group == 'klee':
+                        participant.vars['unfair'] = True
+                    elif not condition and participant.group == 'kandinsky':
+                        participant.vars['unfair'] = True
+
+    else:
+        ps_unfair = [p for p in players if p.in_round(round_number - 1).group.unfair]
+        for p in ps_unfair:
+            p.participant.vars['unfair'] = False
+
+        ps_fair = [p for p in players if not p.in_round(round_number - 1).group.unfair]
+        ps_klee = [p for p in ps_fair if p.participant.group == 'klee']
+        ps_kandinsky = [p for p in ps_fair if p.participant.group == 'kandinsky']
+        ps_fair = [list(pair) for pair in zip(ps_klee, ps_kandinsky)]
+
+        for n, g in enumerate(ps_fair):
+            condition = next(conditions)
+            for p in g:
+                participant = p.participant
+                if condition and participant.group == 'klee':
+                    participant.vars['unfair'] = True
+                elif not condition and participant.group == 'kandinsky':
+                    participant.vars['unfair'] = True
+
+        group_matrix = [ps_unfair[n: n + 2] for n in range(0, len(ps_unfair), 2)] + ps_fair
 
     for s in subsession.in_rounds(subsession.round_number, subsession.round_number + C.NUM_TURNS - 1):
         s.set_group_matrix(group_matrix)
+
+        for g in s.get_groups():
+            ps = g.get_players()
+            if any(p.participant.vars['unfair'] for p in ps):
+                g.unfair = True
+            for p in ps:
+                p.unfair = p.participant.vars['unfair']
 
 
 def set_cards(group: Group):
     import random
     num_cards_f = C.NUM_CARDS_PER_PLAYER_f * C.PLAYERS_PER_GROUP
     deck_f = random.sample(C.DECK, k=num_cards_f)
-    random.shuffle(deck_f)
-    for p in group.get_players():
-        cards_f = [ ]
-        for n in range(C.NUM_CARDS_PER_PLAYER_f):
-            cards_f.append(deck_f.pop())
-        p.participant.vars[ 'cards_in_deck_f' ] = cards_f
 
-    num_cards_uf = 5
-    deck_uf = random.sample(C.DECK, k=num_cards_uf)
-    random.shuffle(deck_uf)
-    for p in group.get_players():
-        cards_uf = [ ]
-        if p.participant.group == 'klee':
-            for n in range(C.NUM_CARDS_PER_PLAYER_uf):
-                cards_uf.append(deck_uf.pop())
-            p.participant.vars[ 'cards_in_deck_uf' ] = cards_uf
-        else:
+    if group.unfair:
+        num_cards_uf = 5
+        deck_uf = random.sample(C.DECK, k=num_cards_uf)
+        random.shuffle(deck_uf)
+        for p in group.get_players():
+            cards_uf = []
+            if p.unfair:
+                for n in range(C.NUM_CARDS_PER_PLAYER_uf):
+                    cards_uf.append(deck_uf.pop())
+                p.participant.vars['cards_in_deck_uf'] = cards_uf
+            else:
+                for n in range(C.NUM_CARDS_PER_PLAYER_f):
+                    cards_uf.append(deck_uf.pop())
+                p.participant.vars['cards_in_deck_uf'] = cards_uf
+    else:
+        for p in group.get_players():
+            cards_f = []
             for n in range(C.NUM_CARDS_PER_PLAYER_f):
-                cards_uf.append(deck_uf.pop())
-            p.participant.vars[ 'cards_in_deck_uf' ] = cards_uf
+                cards_f.append(deck_f.pop())
+            p.participant.vars['cards_in_deck_f'] = cards_f
+
+
 
 
 def set_cardgame_results(group: Group):
