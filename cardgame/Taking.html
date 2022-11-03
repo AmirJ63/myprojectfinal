@@ -1,5 +1,5 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Card Game{{ endblock }}
+{{ block title }}Taking Stage{{ endblock }}
 
 {{ block content }}
 
@@ -11,13 +11,14 @@
         {{player.participant.cardgame_payoff_2}}
     {{endif}}
 
-    and your coplayer has
+    and your coparticipant has
      {{if player.round_number == 3}}
         {{p.participant.cardgame_payoff_1}}
     {{else}}
         {{p.participant.cardgame_payoff_2}}
     {{endif}}
 </p>
+
 <p>
  Move the slider to decide how much to take. you can choose units from 0 to
     {{if player.round_number == 3}}
@@ -32,9 +33,10 @@
 
     {{if player.round_number == 3}}
 <div style="display: flex">
-        0
         &nbsp;
-        <input type="range" name="taking_offer_1" min="0" max="{{player.slider_max1}}" step="1" style="flex: 1" class="flex-fill flex-column" onchange="updateDescriptiontaking1(this); updateDescriptionmyself1(this); updateDescriptioncoplayer1(this)" >
+        <input type="range" name="taking_offer_1" value="0" min="0" max="{{player.slider_max1}}" step="1" style="flex: 1"
+               class="flex-fill flex-column" onchange="updateDescriptiontaking1(this); updateDescriptionmyself1(this);
+               updateDescriptioncoplayer1(this); updateDescriptionchart(this) ">
         &nbsp;
         {{player.slider_max1}}
 </div>
@@ -55,11 +57,29 @@
     <p></p>
   </div>
 
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+</figure>
+
+
+
+
+
+
+
+
+
+
       {{else}}
 <div style="display: flex">
         0
         &nbsp;
-        <input type="range" name="taking_offer_2" min="0" max="{{player.slider_max2}}" step="1" style="flex: 1" class="flex-fill flex-column" onchange="updateDescriptiontaking2(this); updateDescriptionmyself2(this); updateDescriptioncoplayer2(this)" >
+        <input type="range" name="taking_offer_2" value="0"  min="0" max="{{player.slider_max2}}" step="1" style="flex: 1" class="flex-fill flex-row" onchange="updateDescriptiontaking2(this); updateDescriptionmyself2(this); updateDescriptioncoplayer2(this); " >
         &nbsp;
         {{player.slider_max2}}
 </div>
@@ -98,12 +118,14 @@
         let taking_offer_1 = parseInt(input.value) ;
         let myself1 = taking_offer_1/2 + js_vars.payoff1;
         descriptionmyself1.innerText = `You have ${myself1} points.`
+        liveSend({'myself1': myself1.value});
     }
     let descriptioncoplayer1 = document.getElementById('descriptioncoplayer1');
     function updateDescriptioncoplayer1(input) {
         let taking_offer_1 = parseInt(input.value) ;
         let coplayer1 = js_vars.max1 - taking_offer_1;
         descriptioncoplayer1.innerText = `The coplayer has ${coplayer1} points`
+        liveSend({'coplayer1': coplayer1.value});
     }
 
     let descriptiontaking2 = document.getElementById('descriptiontaking2');
@@ -124,8 +146,38 @@
         let coplayer2 = js_vars.max2 - taking_offer_2;
         descriptioncoplayer2.innerText = `The coplayer has ${coplayer2} points`
     }
+    // it is for Bar chart for my coparticipant's and my earnings after taking and giving
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+
+    xAxis: {
+        categories: [
+            'Myself','Coparticipant', 'Bin'
+            //Bin = 120 - Myself - Coparticipant (I do not know where I should do this calculation)
+          ],
+        crosshair: true
+    },
+    yAxis: {
+        title: {
+            useHTML: true,
+            text: 'Tokens'
+        }
+
+    },
+    series: [{
+        data: [?, ?, ?]
+        //I do not know how to introduce variables for Myself, Coparticipant and Bin that I can assign
+        // their values into this bracket (replacing with ?, ?, ?_)
+
+    }]
+});
+
 
 </script>
+
 
 {{ next_button }}
 

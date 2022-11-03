@@ -1,0 +1,33 @@
+{{ block title }}
+<h2 style="text-align: center"> Task 1 complete </h2>
+{{ endblock }}
+
+{{block content  }}
+
+<p>
+Thank you for your responses to the task.  Each pair of paintings that you saw were from two
+    famous painters, Paul Klee and Wassily Kandinsky.
+</p>
+<p>
+    Based on your choices and the choices of other participants in the session, we have determined
+    that you mostly prefer painting by {{ participant.group }}.
+
+    Each participant in the room has
+    been assigned to one of these two groups, those that mostly preferred Klee, and those that mostly
+    preferred Kandinsky.
+
+</p>
+
+
+<p>
+    Based on the choices in this task, you are part of the {{ participant.group}} group.  You will remain
+    in this group for the remainder of the session, as will all others in the session. Please
+    click the "continue" button to begin the instructions for task 2.
+
+</p>
+
+{{ next_button }}
+
+{{ endblock }}
+
+

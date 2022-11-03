@@ -1,0 +1,96 @@
+
+
+{{ block title }}
+<p style="text-align: center; text-emphasis: black ">General Instructions III </p>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+<div class="instructions">
+
+<p>
+   The overall session will be split into five tasks. Task 5 will be a survey which you will be
+    asked to complete prior to payment.  After you have completed all five tasks, you will be paid
+    based on the decisions you made in the session, and then will be free to leave.
+
+</p>
+
+  <p>
+  You will first get the instructions for task 1, and then, once you have completed task 1, you will
+      get the instructions for task 2, and then the instructions for task 3, and so on.  In the
+      session today, you will be paid based on your decisions in two of the five tasks.
+      Task 1 is a simple rating task that will not be paid.  Decisions made in task 2 will be paid
+      for all individuals in the session.  For decisions made in Task 3 and 4, only one of them will
+      be randomly selected for payment.
+
+  </p>
+<p>
+At the end of the session, the computer will randomly select either task 3 or task 4.
+    If task 3 is the task that is selected for payment, then your earnings will be based on your
+    decisions in task 3 (in addition to decisions in task 2).  If task 4 is selected for payment,
+    then your earnings will be based on your decisions in task 4 (in addition to decisions in task 2).
+
+</p>
+    <p>
+
+        Since no one knows which task is the one that you will be paid for, your best strategy
+        is to treat each task as if it is the one that will be paid.
+</p>
+
+    <p>
+        Please click the "continue" button to start the instructions for task 1.
+
+    </p>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}

@@ -1,12 +1,22 @@
 {{ block title}}
-Painting Pair {{ subsession.round_number }}
+<h2 style="text-align: center"> Task 1 – Rating {{ subsession.round_number }} </h2>
 {{ endblock }}
 
 {{ block content }}
 
 <style>
-    p {
-        text-align: justify
+    .my-h {
+        text-align: center;
+        margin-top: 50px;
+    }
+    .my-div {
+        text-align: center;
+    }
+    .my-p {
+        text-align: -moz-center;
+
+
+
     }
 
     .my-table {
@@ -30,6 +40,11 @@ Painting Pair {{ subsession.round_number }}
     }
 </style>
 
+<p>
+    Below are two paintings.  Please choose the option that best describes your preference.
+
+</p>
+
 {{ if rand == 1}}
 
 <table class="my-3 my-table" >
@@ -43,34 +58,48 @@ Painting Pair {{ subsession.round_number }}
         <td class="my-td" ;><img src="{{ static kandinsky_img}}" class="kk-img"/></td>
 
     </tr>
-    <tr>
-        <td class="my-td">{{ formfield player.klee}}</td>
-        <td class="my-td">{{ formfield player.kandinsky}}</td>
-    </tr>
+
 
 </table>
+<div class="my-div">
+<p class="my-p"></p>
+    <h5 class="my-h"></h5>
+</div>
+<p class="my-p"> {{ formfield player.vote }}</p>
 
 {{ else }}
 <table class="my-3 my-table"
     <tr>
-          <th class="my-th">Painting B</th>
           <th class="my-th">Painting A</th>
+          <th class="my-th">Painting B</th>
     </tr>
     <tr>
             <td class="my-td" ;><img src="{{ static kandinsky_img}}" class="kk-img"/></td>
             <td class="my-td";><img src="{{ static klee_img }}"class="kk-img"/></td>
 
     </tr>
-    <tr>
-        <td class="my-td">{{ formfield player.kandinsky}}</td>
-        <td class="my-td">{{ formfield player.klee}}</td>
-    </tr>
 
 </table>
+<div class="my-div">
+ <p class="my-p"></p>
+    <h5 class="my-h"></h5>
 
+</div>
+<p class="my-p"> {{ formfield player.vote }}</p>
+<p class="my-p"></p>
 {{ endif }}
 
 
-{{ next_button }}
+
+<div>
+    <p style="visibility: hidden">
+    d
+    </p>
+
+    <p>
+    {{ next_button }}
+</p>
+</div>
+
 
 {{ endblock }}

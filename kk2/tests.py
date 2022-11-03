@@ -11,12 +11,9 @@ class PlayerBot(Bot):
         if self.player.round_number == 1:
             if self.participant.group == 'klee':
                 yield GuideKlee
+                if self.participant.klee_quiz == True:
+                    yield DecisionKlee, dict(klee_quiz=e)
             elif self.participant.group == 'kandinsky':
                 yield GuideKandinsky
-
-        if self.participant.group == 'klee':
-            yield Submission(DecisionKlee, dict(klee_quiz=e), check_html=False)
-        elif self.participant.group == 'kandinsky':
-            yield Submission(DecisionKandinsky, dict(kandinsky_quiz=f), check_html=False)
-
-
+                if self.participant.kandinsky_quiz == True:
+                    yield DecisionKandinsky, dict(kandinsky_quiz=f)

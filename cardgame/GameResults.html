@@ -1,18 +1,127 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Card Game{{ endblock }}
+{{ block title }} Results{{ endblock }}
 
 {{ block content }}
 
-<p> your cardgame payoff from play 1 is {{ participant.cardgame_payoff_1 }} </p>
-<p> your cardgame payoff from play 2 is {{ participant.cardgame_payoff_2 }} </p>
 
-<p> your taking payoff from play 1 is {{ participant.taking_payoff_1 }} </p>
-<p> your taking payoff from play 2 is {{ participant.taking_payoff_2 }} </p>
+  <table class="table">
+        <tr>
+            <th>your group was </th>
+            <td>{{ participant.group }}</td>
+        </tr>
 
-<p> your final payoff from play is {{ participant.taking_payoff }} </p>
-<p> you total payoff from all apps in the game is {{participant.payoff_plus_participation_fee()
-}}</p>
+        <tr>
+            <th>Your earnings from 2 questions related to distinguish {{ participant.group }} paintings
+            from other paintings
+            </th>
+            <td>{{ participant.payoff_kk2 }}</td>
+        </tr>
+
+         <tr>
+            <th>The game is randomly selected to pay for you is </th>
+            <td> card game {{ participant.cardgame_to_pay }} </td>
+        </tr>
+      {{ if participant.cardgame_to_pay == 1 }}
+        <tr>
+            <th> your cardgame payoffs from play 1 is </th>
+            <td>{{ participant.cardgame_payoff_1 }}</td>
+        </tr>
+
+        <tr>
+            <th>
+                In game 1, the person whose proposal is selected rondomly is
+            </th>
+            <td>
+               {{ if player.participant.random_taking1  == player.id_in_group}}
+                You
+                {{ else }}
+                Your coparticipant
+                {{ endif }}
+            </td>
+        </tr>
+      <tr>
+            <th>
+            The proposal is
+            </th>
+            <td>
+               {{ if player.participant.random_taking1  == player.id_in_group}}
+                 {{ player.participant.random_taking1 }}
+                {{ else }}
+                    {{ others.participant.random_taking1 }}
+                {{ endif }}
+            </td>
+        </tr>
+
+
+        <tr>
+            <th>Your final payoffs are </th>
+            <td> {{ participant.taking_payoff_1 }} </td>
+        </tr>
+       {{ else}}
+      <tr>
+            <th>your cardgame payoffs from play 2 are</th>
+            <td> {{ participant.cardgame_payoff_2 }}</td>
+        </tr>
+
+         <tr>
+            <th>
+                In game 2, the person whose proposal is selected rondomly is
+            </th>
+            <td>
+               {{ if group.random_taking2 == player.id_in_group}}
+                You
+                {{ else }}
+                Your coparticipant
+                {{ endif }}
+            </td>
+        </tr>
+        <tr>
+            <th>
+                The proposal is
+            </th>
+            <td>
+               {{ if group.random_taking2 == player.id_in_group}}
+
+                   {{ player.taking_offer_2 }}
+                {{ else }}
+                    {{ others.taking_offer_2}}
+                {{ endif }}
+            </td>
+         <tr>
+            <th>Your final payoffs are </th>
+            <td> {{ participant.taking_payoff_2 }} </td>
+        </tr>
+        {{ endif }}
 
 
 
+       <tr>
+            <th> <p>Your total payoffs = your earnings from guessing paintings + your final payoff from card game<p>
+                <p>(each 10 points have £1 value) </p>
+            </th>
+            <td> {{participant.payoff}}  </td>
+        </tr>
+        <tr>
+            <th>Show up fee is  </th>
+            <td> £3 </td>
+        </tr>
+       <tr>
+            <th>Your final earnings in this game is  Your total payoffs plus show up fee, which are</th>
+            <td> {{participant.payoff_plus_participation_fee()}}  </td>
+        </tr>
+
+
+      <tr>
+            <th> your id in sessin </th>
+            <td>{{ player.id_in_subsession }}</td>
+        </tr>
+      <tr>
+            <th> your coplayer in playcard game 1 was </th>
+            <td>{{ participant.coplayer1 }}</td>
+        </tr>
+      <tr>
+            <th> your coplayer in playcard game 2 was </th>
+            <td>{{ participant.coplayer2 }}</td>
+        </tr>
+    </table>
 {{ endblock }}

@@ -6,10 +6,13 @@ from random import randint
 class PlayerBot(Bot):
 
     def play_round(self):
-        a = randint(0, 5)
-        b = 5 - a
+        import random
+        a = random.choice([-5, -3, -1, 1, 3, 5])
         if self.player.round_number == 1:
-            yield Instructions
-        yield Paintings, dict(klee=a, kandinsky=b)
+            yield GeneralInstructions
+            yield TaskOneInstructions
+
+        yield Submission(Paintings, dict(vote=a), check_html=False)
+
         if self.player.round_number == C.NUM_ROUNDS:
             yield Results

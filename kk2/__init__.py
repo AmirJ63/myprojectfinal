@@ -121,22 +121,45 @@ def set_payoff_group(group: Group):
 
     group.max_payoff_klee = 0
     group.max_payoff_kandinsky = 0
+    if group.round_number == 1:
+        for p in ps_klee:
+            if p.participant.klee_quiz == True:
+                group.max_payoff_klee = p.participant.payoff_kk2
+        for p in ps_klee:
+            p.participant.payoff_kk2 = group.max_payoff_klee
 
-    for p in ps_klee:
-        if p.participant.payoff_kk2 >= group.max_payoff_klee:
-            group.max_payoff_klee = p.participant.payoff_kk2
-    for p in ps_klee:
-        p.participant.payoff_kk2 = group.max_payoff_klee
+        for p in ps_kandinsky:
+            if p.participant.kandinsky_quiz == True:
+                group.max_payoff_kandinsky = p.participant.payoff_kk2
+        for p in ps_kandinsky:
+            p.participant.payoff_kk2 = group.max_payoff_kandinsky
+    elif group.round_number == C.NUM_ROUNDS:
+        for p in ps_klee:
+            if p.participant.klee_quiz == True:
+                group.max_payoff_klee = p.participant.payoff_kk2
+        for p in ps_klee:
+            p.participant.payoff_kk2 = group.max_payoff_klee
 
-    for p in ps_kandinsky:
-        if p.participant.payoff_kk2 >= group.max_payoff_kandinsky:
-            group.max_payoff_kandinsky = p.participant.payoff_kk2
-
-    for p in ps_kandinsky:
-        p.participant.payoff_kk2 = group.max_payoff_kandinsky
-
+        for p in ps_kandinsky:
+            if p.participant.kandinsky_quiz == True:
+                group.max_payoff_kandinsky = p.participant.payoff_kk2
+        for p in ps_kandinsky:
+            p.participant.payoff_kk2 = group.max_payoff_kandinsky
 
 ##PAGES
+
+class Task2Instruction(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
+class GuideChat(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
 class GuideKlee(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -155,25 +178,15 @@ class WaitePage(WaitPage):
     after_all_players_arrive = set_spokesperson
 
 
-class DecisionKlee(Page):
-    form_model = 'player'
+class ChatKlee(Page):
 
-    timeout_seconds = 180
-    @staticmethod
-    def get_form_fields(player):
-        if player.participant.klee_quiz == True:
-            return ['klee_quiz']
-
-    timeout_seconds = None
+    timeout_seconds = 5
 
     @staticmethod
     def is_displayed(player: Player):
         participant = player.participant
         return participant.group == 'klee'
 
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        set_payoff(player)
 
     @staticmethod
     def js_vars(player: Player):
@@ -189,6 +202,47 @@ class DecisionKlee(Page):
             return {0: [to_dict(msg)]}
         return {my_id: [to_dict(msg) for msg in Message.filter(group=group)]}
 
+class DecisionKlee(Page):
+    form_model = 'player'
+
+    @staticmethod
+    def get_form_fields(player):
+        if player.participant.klee_quiz == True:
+            return ['klee_quiz']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.participant.klee_quiz == True
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        set_payoff(player)
+
+
+
+class ChatKandinsky(Page):
+    timeout_seconds = 5
+
+
+    @staticmethod
+    def is_displayed(player: Player):
+        participant = player.participant
+        return participant.group == 'kandinsky'
+
+
+    @staticmethod
+    def js_vars(player: Player):
+        return dict(my_id=player.id_in_group)
+
+    @staticmethod
+    def live_method(player: Player, data):
+        my_id = player.id_in_group
+        group = player.group
+        if 'text' in data:
+            text = data['text']
+            msg = Message.create(group=group, sender=player, text=text)
+            return {0: [to_dict(msg)]}
+        return {my_id: [to_dict(msg) for msg in Message.filter(group=group)]}
 
 class DecisionKandinsky(Page):
     form_model = 'player'
@@ -198,30 +252,14 @@ class DecisionKandinsky(Page):
         if player.participant.kandinsky_quiz == True:
             return ['kandinsky_quiz']
 
-    timeout_seconds = 180
-
     @staticmethod
     def is_displayed(player: Player):
-        participant = player.participant
-        return participant.group == 'kandinsky'
+        return player.participant.kandinsky_quiz == True
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         set_payoff(player)
 
-    @staticmethod
-    def js_vars(player: Player):
-        return dict(my_id=player.id_in_group)
-
-    @staticmethod
-    def live_method(player: Player, data):
-        my_id = player.id_in_group
-        group = player.group
-        if 'text' in data:
-            text = data['text']
-            msg = Message.create(group=group, sender=player, text=text)
-            return {0: [to_dict(msg)]}
-        return {my_id: [to_dict(msg) for msg in Message.filter(group=group)]}
 
 
 class WaitToResults(WaitPage):
@@ -232,10 +270,11 @@ class WaitToResults(WaitPage):
         return player.round_number == C.NUM_ROUNDS
 
 
+
 class Results(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
 
-page_sequence = [GuideKlee, GuideKandinsky, WaitePage, DecisionKlee, DecisionKandinsky, WaitToResults]
+page_sequence = [Task2Instruction, GuideKlee, GuideKandinsky, GuideChat, WaitePage, ChatKlee, ChatKandinsky, DecisionKlee, DecisionKandinsky, WaitToResults]

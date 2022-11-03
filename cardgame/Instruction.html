@@ -1,12 +1,233 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Instruction For Card Game{{ endblock }}
-
+{{ block title }}
+ Instructions for Task
+{{ if game_number == 1 }}
+3
+{{ else }}
+4
+{{ endif }}
+part 1
+{{ endblock }}
 {{ block content }}
 
-<P>
-    This is instruction for card game
-</P>
 
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+       font-min-size: large;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<div class="instructions">
+    {{ if game_number == 1 }}
+    <P>
+    In this part, you will play a card game with your coparticipant in 3 rounds.
+        The person who can win at least 2 rounds of these 3 rounds will get 90
+        tokens and the loser will get 30 tokens.
+    </P>
+    <p>
+        At the start of each card game, you will be dealt some cards and your coparticipant will
+        also be dealt some cards. Each card has a number which can be any of the whole numbers in the
+        range from 1 to 10. Each of these numbers is equally likely at each round. Dealing a deck
+        of cards in each round is mutual for you and your coparticipant which means you and your
+        coparticipant do not have the same card numbers. For example, if your coparticipant has
+        card number 5 and card number 8, your cards will not be any of these two cards. The chance of having a card is the same for you and your coparticipant.
+        In each round, the holder of the higher number card among you and your coparticipant is the
+        winner of the round. The person who can wins at least 2 rounds of 3 rounds is the overall
+        winner.
+    </p>
+<p>
+    In each round of the card game, you and your coparticipant will have several cards.
+    Your task is to choose one card from your cards. The number of cards you can have depends
+    on your group. In the previous task, you are assigned to {{ participant.group }} group and your coparticipant
+    is selected randomly from another group. In this session for task 3, all participants who are in
+    {{ participant.group }} group have only 2 cards, but other participants who are in another group have 3 cards.
+    So, you have only 2 cards in each round, and you should choose your card from these two cards.
+    While your coparticipant has 3 cards.
+</p>
+<p>
+    While you are making your decisions about choosing your card, you will not know what
+    decisions your coparticipant is making. Nor will you know the numbers on the cards that
+    are dealt to him or her. Similarly, your coparticipant will not know what decisions you
+    are making, or the numbers on the cards that are dealt to you.
+</p>
+<p>
+    After you and your coparticipant have made your decision, you can observe the selected
+    cards by you and your coparticipant in the next page.
+     Whoever has the card with the higher number
+    wins that round of the game. The person who can wins at least 2 rounds of 3 rounds is the overall winner.
+    The overall winner will get 90 token and the overall loser will get 30 tokens.
+</p>
+    <p>
+        Please raise your hand if you have any questions.
+Before you start to take decisions, we ask you to answer some
+        questions in the next several screens. The purpose of these questions is to check
+        whether you have under-stood these instructions. Any mistake you may make in doing these
+        questions will not affect your final money earnings.
+
+    </p>
+
+    <p>
+        When you have finished Task3 part 1, please remain seated. When everyone has finished this part,
+        you will see the instructions for task 3 part 2.
+    </p>
+
+
+
+
+     {{ elif game_number == 2 }}
+    <p>
+        In this part, you will play card game with your coparticipant in 3 rounds.
+        The person who can win at least 2 rounds of
+        these 3 rounds will get 90 tokens and the loser will get 30 tokens.
+    </p>
+      <p>
+        At the start of each card game, you will be dealt a card and your coparticipant will also
+          be dealt a card. Each card has a number which can be any of the whole numbers in the
+          range from 1 to 10. Each of these numbers is equally likely at each round. Dealing a
+          deck of cards in each round is mutual for you and your coparticipant which means you
+          and your coparticipant do not have the same card numbers. For example, if your
+          coparticipant has card number 5, card number 8 and card number 9, your cards will be
+          selected from number 1 to 10 except these three numbers. The chance of having a card is
+          the same for you and your coparticipant. In each round, the holder of the higher number
+          card among you and your coparticipant is the winner of the round. The person who can wins
+          at least 2 rounds of 3 rounds is the overall winner.
+    </p>
+<p>
+     In each round of the card game, you and your coparticipant will have several cards.
+    Your task is to choose one card from your cards. The number of cards you can have depends
+    on your group. In the previous task, you are assigned to {{ participant.group }} group and your coparticipant
+    is selected randomly from another group. In this session, for task 4, All participants, no matter
+    belong to which group, have 3 cards. So, you have 3 cards in each round, and you should
+    choose your card from these three cards.
+</p>
+    <p>
+        While you are making your decisions about choosing your card, you will
+        not know what decisions your coparticipant is making. Nor will you know
+        the numbers on the cards that are dealt to him or her. Similarly, your coparticipant
+        will not know what decisions you are making, or the numbers on the cards that
+        are dealt to you.
+    </p>
+<p>
+    After you and your coparticipant have made your decision, your coparticipant’s
+    card will be turned over. You can observe the card number on your card and the card
+    number on your coparticipant’s card. Whoever has the card with the higher number
+    wins the game. The person who can wins at least 2 rounds of 3
+    rounds is the overall winner. The overall winner will get 90 token and
+    the overall loser will get 30 tokens.
+
+</p>
+    <p>
+        Please raise your hand if you have any questions.
+    </p>
+    <p>
+        Before you start to take decisions, we ask you to answer some questions in
+        the next several screens. The purpose of these questions is to check whether
+        you have under-stood these instructions. Any mistake you may make in doing these
+        questions will not affect your final money earnings.
+    </p>
+    <p>
+        When you have finished Task4, please remain seated. When everyone has finished task 4,
+        you will see the final results and your payments.
+    </p>
+</div>
+{{ endif }}
+
+
+{{ if player.round_number == 1 }}
+
+<div class="instructions">
+<p>
+
+    <h5>Quiz1</h5>
+        <p class="my-3">In round one of Game 1 You have cards numbered 2, 5, 6. Which card
+            you should play that maximise your probability of winning?'
+            {{ formfield player.quiz1}}
+        </p>
+        <p style="visibility: hidden">    sdfdgfhgjhgjhgjk     </p>
+
+
+
+<h5> Quiz2</h5>
+    <p class="my-3">
+    Assuming in Game 1 in round 1, 2 and 3 the cards you play are 8, 3, 5 respectively and the cards your coplayer play are 4, 7, 10. What are the units you and your coplayers will earn at the end of Game 1?
+          {{ formfield player.quiz2}}
+    </p>
+    <p style="visibility: hidden">     ertfertgryhtu   </p>
+
+<h5>
+
+ {{if group.unfair == False}}
+<h5>
+    Quiz3 </h5>
+    <p class="my-3">If in Game 1, you and your coplayer has 3 cards, how many cards
+        you and your coplayers will have in Game 2? <p>
+    <p>a. You 3, Your Coplayer 3 </p>
+    <p>b. You 3, Your Coplayer 2</p>
+    <p>c. You 2, Your Coplayer 3</p>
+    <p>d. You 2, Your Coplayer 2</p>
+ {{ formfield player.quiz3}}
+     <p style="visibility: hidden">     ertfertgryhtu   </p>
+
+    {{ else }}
+
+    <h5>Quiz3</h5>
+    <p class="my-3">If in Game 1, you have 2 cards and your coplayer has 3 cards, how many cards
+        you and your coplayers will have in Game 2? </p>
+    <p>a. You 3, Your Coplayer 3 </p>
+    <p>b. You 3, Your Coplayer 2</p>
+    <p>c. You 2, Your Coplayer 3</p>
+    <p>d. You 2, Your Coplayer 2</p>
+    {{ formfield player.quiz4 }}
+    </P>
+     <p style="visibility: hidden">     ertfertgryhtu   </p>
+    {{ endif }}
+
+
+{{ endif }}
 {{ next_button }}
 
 {{ endblock }}

@@ -1,0 +1,105 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}
+Result of Card Game {{ game_number }}
+
+
+{{ endblock }}
+
+
+{{ block content }}
+
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+       font-min-size: large;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<div class="instructions">
+    {{ if game_number == 1 }}
+    <P>
+        You could win {{ player.participant.cardgame_score_1 }} rounds and your coparticipant could
+        win {{ others.participant.cardgame_score_1}} rounds of the game.
+    </P>
+
+        {{ if player.participant.cardgame_score_1 >  others.participant.cardgame_score_1 }}
+    <p>
+            So, You are the overall winner of the game. You are given 90 tokens and your coparticipant is given
+        30 tokens.
+    </p>
+        {{ else }}
+    <p>
+            So, Your coparticipant is the overall winner of the game. You are given 30 tokens and your
+        coparticipant is given 90 tokens.
+    </p>
+        {{  endif}}
+
+    {{ else}}
+ <P>
+        You could win {{ player.participant.cardgame_score_2 }} rounds and your coparticipant could
+        win {{ others.participant.cardgame_score_2}} rounds of the game.
+    </P>
+
+        {{ if player.participant.cardgame_score_1 >  others.participant.cardgame_score_1 }}
+    <p>
+         So, You are the overall winner of the game. You are given 90 tokens and your coparticipant is given
+        30 tokens.
+    </p>
+        {{ else }}
+    <p>
+         So, Your coparticipant is the overall winner of the game. You are given 30 tokens and your
+        coparticipant is given 90 tokens.
+    </p>
+
+        {{ endif }}
+    {{ endif }}
+</div>
+
+
+{{ next_button }}
+
+{{ endblock }}

@@ -1,0 +1,54 @@
+{{ block title }}
+<h2 style="text-align: center"> Task 2 instructions </h2>
+{{ endblock }}
+
+{{block content}}
+
+<style>
+
+ Img {
+        Width: 300px;
+        Margin-Right: 150px
+    }
+</style>
+<p>
+
+   Thank you for reading about {{ participant.group}}.  On the next page you will see 5 paintings, and your
+    group will be asked to select the painting that was painted by {{ participant.group}}.  Note that
+    only one of the five paintings was actually painted by {{ participant.group}}, so there is only one
+    correct answer.  Also note that the group is only allowed to select one painting as the selection
+    for the entire group.  Here is how this will work:
+</p>
+<p>
+One group member will be randomly selected as the spokesperson for the group.  This is the
+    person who will have to submit the response on behalf of the group.  Therefore, the group
+    needs to reach a consensus about which painting they most think was painted by {{ participant.group }}.
+</p>
+<p>
+On the next page, you will view the paintings and will be allowed to discuss amongst your group
+    for a total of 3 minutes. The discussions will take place using online chat. Please note
+    that you may discuss as much as you prefer, as long as you follow the following rules:
+    <p>
+    1. Please do not identify yourself or send any information that could be used to identify
+    you (e.g., age, race, professional background, etc.).
+</p>
+
+<p>
+2. Please refrain from using any obscene or offensive language.
+</p>
+<p>
+Remember that only one person will be selected to be the spokesperson for the group.
+    Hence, please be sure to communicate with the spokesperson.
+    If your group selects correctly, you will earn an additional 5 tokens each.
+    You will participate in this task twice, so you can earn an additional 10 tokens in total
+    from the task.
+</p>
+<p>
+Please click the "continue" button to start the task.
+</p>
+
+
+
+{{ next_button }}
+
+{{ endblock }}

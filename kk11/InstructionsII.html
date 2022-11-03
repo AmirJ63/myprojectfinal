@@ -1,0 +1,95 @@
+
+
+{{ block title }}
+<p style="text-align: center; text-emphasis: black ">General Instructions II </p>
+{{ endblock }}
+
+{{ block content }}
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+<div class="instructions">
+
+<p>
+    In the session today you will participate in five tasks.   You will be paid a £ 3 participation
+    fee, plus additional money based on your decisions in the session.  Please read and pay attention
+    to all instructions.  If you do, you will be able to earn a considerable amount of money.
+
+</p>
+
+
+  <p>
+  We will be using a currency called "tokens" in this session.  All decisions and earnings
+      during the session will be expressed in terms of tokens.  At the end of the ses-sion,
+      tokens will be exchanged for pounds at the rate of 0.1 tokens per pound.  This means that
+      for every 100 tokens you earn in the session, you will be paid £ 10.
+
+  </p>
+<p>
+Your computer number is your ID number, which you will use to collect your earnings at the end of
+    the session.  Your decisions will be recorded privately at your computer terminal.
+    Other participants will never be informed about your earnings from the experiment.
+    The experimenter will not be aware of your actual decisions either, but only your final
+    payment.  You will be paid individually, privately, and in cash at the end of the session.
+</p>
+    <p>
+Please read all instructions carefully. You will be asked to take a quiz to demonstrate understanding
+        before being allowed to continue, so please read all instructions.  You will earn a
+        considerable amount of money if you do.
+</p>
+
+    <p>
+Please click the "continue" button to continue the instructions.
+
+    </p>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}

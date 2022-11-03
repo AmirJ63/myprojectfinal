@@ -13,10 +13,13 @@ SESSION_CONFIGS = [
         name='study_test',
         display_name="kk11 (Test)",
         app_sequence=['kk11', 'kk2', 'cardgame'],
-        num_demo_participants=8,
-
-
-
+        num_demo_participants=20,
+    ),
+dict(
+        name='stage2_project',
+        display_name="stage 2",
+        app_sequence=['stage2_project'],
+        num_demo_participants=2,
     ),
 ]
 
@@ -44,15 +47,28 @@ PARTICIPANT_FIELDS = [
     'cardgame_payoff_2',
     'payoff_cardgame',
     'payoff_kk2',
+    'payoff_final_kk2',
     'taking_payoff_1',
     'taking_payoff_2',
     'taking_payoff',
+    'unfair',
+    'num_cards',
+    'group_matrix',
+    'unfair1',
+    'coplayer1',
+    'coplayer2',
+    'cards_in_deck_uf',
+    'cards_in_deck_f',
+    'num_wins',
+    'random_taking1',
+
 
 
 ]
 
 SESSION_FIELDS = [
     'scores',
+
 ]
 
 # ISO-639 code

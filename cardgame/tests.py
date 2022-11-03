@@ -10,8 +10,8 @@ class PlayerBot(Bot):
         b = randint(0, 30)
         e = randint(0, 30)
 
-        if self.player.round_number == 1:
-            yield Instruction
+        if self.player.round_number == 1 or self.player.round_number == 4:
+            yield Submission(Instruction, dict(quiz1=3, quiz2=3, quiz3=2, quiz4=4), check_html=False)
 
         yield Submission(PlayCards, dict(card=a), check_html=False)
 

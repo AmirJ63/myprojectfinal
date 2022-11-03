@@ -1,0 +1,96 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}
+<h2 style="text-align: center">Task 2 Instructions
+
+{{ endblock }}
+
+{{ block content }}
+
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+       font-min-size: large;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<div class="instructions">
+
+    <P>
+Based on your decisions in task 1, you have been assigned to the{{participant.group}} group.
+        In this task, you will interact with other participants in the {{ participant.group}} group.
+        Your task is to determine which painting of a set of paintings, was painted by
+        {{participant.group}}.
+    </P>
+<p>
+    In order to help you and your group members with this task, you will first be given some
+    information about {{ participant.group}}’s paintings, so that the group can learn more about his
+    painting style.  After this, you will be shown 5 paintings, and the task will ask the group to
+    select which one of the five was painted by {{ participant.group}}.  Your group will do this twice,
+    with each correct answer earning each group member 5 tokens.
+
+</p>
+    <p>
+        Note that you will participate in this task as a group.  What this means is that when
+        the paintings are up on the screen, you and your group members will be able to chat
+        with one another to discuss the answer.  Each time you will be allowed to chat for 3
+        minutes before being asked to provide an answer.  Please keep all discussion in the
+        chat about the paintings, and refrain from providing any identifying information or
+        using foul language.
+
+    </p>
+Please click the "continue" button to learn more about {{ participant.group}}.
+
+
+</div>
+
+
+
+
+
+{{ next_button }}
+
+{{ endblock }}

@@ -1,0 +1,91 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}
+Instructions for Task
+{{ if game_number == 1 }}
+3
+{{ else }}
+4
+{{ endif }}
+
+part 2
+
+{{ endblock }}
+{{ block content }}
+
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+       font-min-size: large;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<div class="instructions">
+
+   <p>
+    At the end of Part 1, 120 tokens were allocated between you and your coparticipant based
+    on the result of the tasks you carried out. The winner in Part 1 got 90 tokens and the
+    loser in Part 1 got 30 tokens. In the next page, you will give a proposal to take some tokens
+    from your coparticipant. The maximum values you can take, depends on the tokens your
+    coparticipant have. If your coparticipant has 90 tokens you can take from 0 to 90 tokens,
+    but if your coparticipant has 30 tokens, you can take from 0 to 30 tokens. At the end of this
+    part, there are two proposals. One of the proposals is your proposal, and another is your
+    coparticipant’s proposal. One these two proposals will be randomly assigned at the end of
+    experiment for payments. You will not be aware of your final tokens you win in this task
+    until the end of experiment which is after task 4.
+</p>
+<p>
+    In the next page, your task is to choose how many tokens you want to take from your
+    coparticipant. For any amounts you will choose to take from your coparticipant,
+    your coparticipant’s payoff will decrease the same amounts, but your payoffs will
+    increase only half of them. For example, if you choose 20 tokens to take, your coparticipant’s
+    payoffs deacrease 20 tokens, but your payoffs will increase 20/2=10 tokens. For any amount you select in a
+    slider, you can see 3 numbers: The tokens you take, your payoffs after this take and your
+    coparticipant's payoffs after this take.
+</p>
+{{ next_button }}
+
+{{ endblock }}

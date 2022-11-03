@@ -1,6 +1,5 @@
 {{ block title }}
-    <div class="text-center"></div>
-<h4> Task 2 – Part {{ player.round_number }} </h4>
+    <div class="text-center">Task 2 – Part {{ player.round_number }}</div>
 {{ endblock }}
 
 {{block content}}
@@ -9,7 +8,7 @@
     .otree-body {
         margin-left: 0;
     }
-    table, th {
+    table, th, {
         border: -o-highlight-border;
     }
     td {
@@ -18,7 +17,6 @@
         vertical-align: middle;
         border-right-width: 50px;
         border-right-color: white;
-
     }
     .chat_container {
         align-items: center;
@@ -52,25 +50,30 @@
 
 </style>
 
-<p>
+
+<div class="text_instructions">
+ <p>
+     <p>
     In this part, your task is to distinguish {{ participant.group }}’s paintings from 5 paintings.
     Only one of these 5 paintings was painted by {{ participant.group}}.
     You have 3 minutes to chat with other participants in your group to select the correct answer.
 </p>
 <p>
-    One person in {{ participant.group}} group is randomly selected to answer the this task.
+    One person in K{{ participant.group}} group is randomly selected to answer the this task.
     If you are selected, you can see the information that you are the person that should answer the
     question on behalf of your group.
 </p>
 
-<div class="text_instructions"></div>
-<p>
-    you should choose one painting which was painted by {{ participant.group}}
-    by clicking the correct answer.
+ </p>
+    {{ if player.participant.klee_quiz == True }}
+    <p>You are the person that should choose the correct answer on behalf of your group</p>
+    {{ endif }}
+</div>
 
-</p>
+
 {{ if player.round_number == 1 }}
 <table>
+
     <tr>
          <td>painting 1</td>
          <td>painting 2</td>
@@ -92,14 +95,6 @@
 
     </tr>
 
-{{  if player.participant.klee_quiz == True}}
-    {{ for choice in form.klee_quiz }}
-
-        <td>{{choice}}</td>
-
-    {{endfor}}
-{{endif}}
-
 </table>
 {{ else }}
 <table>
@@ -118,25 +113,58 @@
         <td><img src="{{ static 'kk2_images/decisions/klee25.jpg' }}" style="width:240px; height: 240px;"/></td>
 </tr>
 
-{{  if participant.klee_quiz == True}}
-    {{ for choice in form.klee_quiz }}
-        <td>{{choice}}</td>
-    {{endfor}}
+
+</table>
 {{endif}}
 
-    </table>
-{{endif}}
-{{ if player.round_number == 1 }}
-<p>
-    Please click the "continue" button to start part 2.
-</p>
+<div id="chat_messages" class="Message_content"></div>
 
-{{ else }}
-<p>
-    Please click the "continue" button to instructions for task 3.
-</p>
-{{ endif }}
-{{ next_button }}
+<div class="chat">
+    <input type="text" id="chat_input" class="chat_container">
+    <button type="button" onclick="sendMsg()" class="send">Send</button>
+</div>
+
+<script>
+
+    let chat_input = document.getElementById('chat_input');
+
+    chat_input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendMsg();
+        }
+    });
+
+    function sendMsg() {
+        let text = chat_input.value.trim();
+        if (text) {
+            liveSend({'text': text});
+        }
+        chat_input.value = '';
+    }
+
+    let chat_messages = document.getElementById('chat_messages');
+
+    function liveRecv(messages) {
+        for (let msg of messages) {
+            let msgSpan = document.createElement('span');
+            msgSpan.textContent = msg.text;
+            let sender = msg.sender === js_vars.my_id ? 'Me' : `Player ${msg.sender}`;
+            let row = `<div><b>${sender}</b>: ${msgSpan.innerHTML}</div>`;
+            chat_messages.insertAdjacentHTML('beforeend', row);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        liveSend({});
+    });
+
+    const myTimeout = setTimeout(next, 5000);
+    function next() {
+        document.getElementById("myNext").style.visibility = "visible";
+    }
+
+</script>
+
 
 {{ endblock }}
 

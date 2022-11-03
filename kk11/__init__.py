@@ -25,21 +25,37 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    import random
     rand = models.IntegerField()
     klee_difference = models.IntegerField()
 
-    klee = models.IntegerField(
-            widget=widgets.RadioSelectHorizontal,
-            choices=[0, 1, 2, 3, 4, 5],
-            label="I like:"
+    vote = models.IntegerField(
+        widget=widgets.RadioSelectHorizontal,
+        label=""
         )
-    kandinsky = models.IntegerField(
-            widget=widgets.RadioSelectHorizontal,
-            choices=[0, 1, 2, 3, 4, 5],
-            label="I like:"
-    )
+def vote_choices(player):
+    import random
+    player.rand = random.randint(1, 2)
+    if player.rand == 1:
+         choices=[
+            [5, 'strongly prefer A'],
+            [3, 'prefer A'],
+            [1, 'slightly prefer A'],
+            [-1, 'slightly prefer B'],
+            [-3, 'prefer B'],
+            [-5, 'strongly prefer B'],
+         ]
+         return choices
 
-
+    if player.rand == 2:
+        choices = [[-5, 'strongly prefer A'],
+                   [-3, 'prefer A'],
+                   [-1, 'slightly prefer A'],
+                   [1, 'slightly prefer B'],
+                   [3, 'prefer B'],
+                   [5, 'strongly prefer B'],
+                   ]
+        return choices
 # Functions
 def creating_session(subsession: Subsession):
     if subsession.round_number == 1:
@@ -49,7 +65,7 @@ def creating_session(subsession: Subsession):
 
 def set_score(player:Player):
     participant = player.participant
-    player.klee_difference = player.klee - player.kandinsky
+    player.klee_difference = player.vote
     participant.vars['scores'].append(player.klee_difference)
     if player.round_number == C.NUM_ROUNDS:
         participant.score = sum(participant.vars['scores'])
@@ -71,8 +87,24 @@ def set_minimal_groups(subsession: Subsession):
             p.group = 'klee'
 
 
+
 ##PAGES
 class Instructions(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class InstructionsII(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class InstructionsIII(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+class TaskOneInstructions(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
@@ -80,30 +112,29 @@ class Instructions(Page):
 class Paintings(Page):
 
     form_model = 'player'
-    form_fields = ['klee', 'kandinsky']
+    form_fields = ['vote']
 
     @staticmethod
     def vars_for_template(player: Player):
         import random
-        rand = random.randint(1, 2)
+        print('player.id_in_group',player.id_in_group, 'player.rand',player.rand)
+
         return dict(
             klee_img=f'first5paintings/klee{player.round_number}.jpg',
             kandinsky_img=f'first5paintings/kandinsky{player.round_number}.jpg',
-            rand=rand,
+            rand=player.rand,
         )
-
-
-
 
     @staticmethod
     def error_message(player: Player, values):
         print('values is', values)
-        if values['klee'] + values['kandinsky'] != 5:
-            return 'The numbers must add up to 5'
+        if values['vote'] == None:
+            return 'You should choose one of the options'
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         set_score(player)
+        print('player.vote=', player.vote)
 
 
 class WaitingResults(WaitPage):
@@ -115,6 +146,11 @@ class WaitingResults(WaitPage):
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+class Task1complete(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+
 
 class Results(Page):
     @staticmethod
@@ -122,4 +158,6 @@ class Results(Page):
         return player.round_number == C.NUM_ROUNDS
 
 
-page_sequence = [Instructions,Paintings, WaitingResults, Results]
+
+
+page_sequence = [Instructions, InstructionsII, InstructionsIII, TaskOneInstructions, Paintings, WaitingResults, Task1complete]

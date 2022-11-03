@@ -1,0 +1,99 @@
+{{ extends 'global/Page.html' }}
+{{ block title }} Instructions for Task
+{{ if game_number == 1 }}
+3
+{{ else }}
+4
+{{ endif }}
+ {{ endblock }}
+
+{{ block content }}
+
+
+<style>
+   .instructions {
+	width:100%;
+	height:100%;
+       font-min-size: large;
+	background:rgba(255,255,225,0.05);
+    text-align: justify;
+	margin:20px auto;
+    padding: 20px 20px 10px 20px;
+
+    position:relative;
+    -webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+       -moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+            box-shadow:0 1px 5px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.05) inset;
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+   .instructions:before, .instructions:after
+{
+	content:"";
+    position:absolute;
+    z-index:-1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    -webkit-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+       -moz-box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+            box-shadow:2px 4px 16px rgba(0,0,0,0.2);
+
+    -moz-border-radius: 8px/8px;
+         border-radius: 8px/8px;
+}
+
+    p{
+        text-align: justify
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+
+    Img {
+        Width: 300px;
+        Float: left;
+        Margin-left: 80px
+    }
+</style>
+
+
+<div class="instructions">
+    {{ if game_number == 1 }}
+    <P>
+        In this task, you will play a card game (part1) and
+        then a redistribution procedure (part2). In the card game, you will play a card game
+        in 3 rounds. The winner will be given 90 tokens while the loser will be given 30 tokens.
+        Then, you and your coparticipant will choose how many tokens you want to take from each other.
+In this task, you from Kandinsky group will play with another person in Klee group which is randomly
+        selected as your coparticipant in this task. In the card game and then the redistribution
+        procedure, your coparticipant will remain the same.
+If you are ready, you can click on the next page to take the Instruction for task 3 part 1
+        which is a card game.
+
+    </P>
+{{ else }}
+
+    <p>
+        In this task, you will play a card game and then a redistribution procedure.
+        In the card game, you will play a card game in 3 rounds. The winner will be given 90
+        tokens while the loser will be given 30 tokens. Then, you and your coparticipant will
+        choose how many tokens you want to take from each other.
+    </p>
+    <p>
+     In this task, you are rematched again in a way that you from Kandinsky group will play with
+        another person in Klee group (excluding your coparticipant in previous task) which is
+        randomly selected as your coparticipant in this task. The new person cannot be your
+        coparticipant in the previous task.  In the card game and then the re-distribution procedure,
+        your coparticipant will remain the same.
+    </p>
+    <p>
+        If you are ready, you can click on the next page to take the Instruction for card game.
+    </p>
+</div>
+{{ endif }}
+{{ next_button }}
+
+{{ endblock }}

@@ -1,0 +1,50 @@
+{{ block content }}
+
+<input type="range" name="taking_offer_1" value="0"  min="0" max="{{player.slider_max2}}" step="1" style="flex: 1" class="flex-fill flex-row" onchange="updateDescriptiontaking1(this)">
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+</figure>
+
+<script>
+   let descriptiontaking1 = document.getElementById('descriptiontaking1');
+    function updateDescriptiontaking1(input) {
+        let taking_offer_1 = parseInt(input.value) ;
+        descriptiontaking1.innerText = `You take ${taking_offer_1} points.`
+        liveSend({'taking_offer_1': taking_offer_1.value});
+    }
+
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+
+    xAxis: {
+        categories: [
+            'You', 'your coparticipant',
+          ],
+        crosshair: true
+    },
+    yAxis: {
+        title: {
+            useHTML: true,
+            text: 'Tokens'
+        }
+
+    },
+    series: [{
+        data: ['5', '10']
+
+    }]
+});
+
+</script>
+
+{{ endblock }}

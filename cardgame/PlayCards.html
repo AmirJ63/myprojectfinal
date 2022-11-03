@@ -1,5 +1,15 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Card Game{{ endblock }}
+{{ block title }}
+
+ Round
+{{ if game_number == 1 }}
+    {{ player.round_number }}
+{{ else }}
+    {{ Round_Number }}
+{{ endif }}
+
+{{ endblock }}
+
 
 {{ block content }}
 
@@ -23,18 +33,54 @@
     #card_selected {
         font-weight: bold;
     }
+
+    my-table {
+        border: 1px solid black;
+        align-items: center; vertical-align: middle; horiz-align: center;
+        width:100%;
+    }
 </style>
+    {{ if group.unfair == True }}
+<p>
+    You are in the {{ participant.group }} group, so you have
+      {{ if player.unfair == True}}
+        2 cards in each round. You are matched with a
+        person from {{ others.group }} group who has 3 cards.
+      {{ else }}
+        3 cards in each round.
+        You are matched with a person from {{ others.group }} group who has 2 cards.
+      {{ endif }}
+
+    {{ elif group.unfair == False }}
+
+         You are in the {{ participant.group }} group, so you and your coparticipants have 3 cards in each round.
+        You are matched with a person from {{ participant.group }} group.
+    {{ endif }}
+    Your task is to choose a card to play. The holder of the higher card is the winner of the round.
+    The person who wins at least 2 of 3 rounds is the overall winner of the game.
+</p>
 
 <div id="cards_container">
-    {{if player.round_number < 4}}
+    {{if participant.unfair1 == False}}
         {{ for card in cards_f }}
-        <div>
+       <div>
             <button type="button" value="{{ card }}" class="btn-card">
                 {{ card }}
             </button>
         </div>
         {{ endfor }}
-    {{elif player.round_number > 3}}
+
+        {{ if len_f == 3}}
+                {{ for card in others_f }}
+        <div>
+            <button type="button" value="{{ card }}" class="btn-card">
+                {{ card }}
+            </button>
+        </div>
+                {{ endfor }}
+    {{ endif }}
+
+    {{else}}
         {{ for card in cards_uf }}
         <div>
             <button type="button" value="{{ card }}" class="btn-card">
@@ -42,9 +88,27 @@
             </button>
         </div>
         {{ endfor }}
+
+        {{ if len_uf == 2}}
+            {{ for card in others_uf }}
+        <div>
+            <button type="button" value="{{ card }}" class="btn-card" disabled>
+                {{ card }}
+            </button>
+        </div>
+            {{ endfor }}
+         {{ elif len_uf == 3}}
+            {{  for card in others_uf }}
+        <div>
+            <button type="button" value="{{ card }}" class="btn-card" disabled>
+                {{ card }}
+            </button>
+        </div>
+    {{ endfor }}
+    {{ endif }}
+
+
     {{endif}}
-
-
 
 
 </div>
@@ -62,7 +126,7 @@
         </button>
     </p>
 
-</div>
+
 
 {{ endblock }}
 
